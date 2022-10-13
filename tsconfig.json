@@ -15,6 +15,7 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
+    "types": ["vite/client"],
 
     "resolveJsonModule": true,
     "isolatedModules": true,
