@@ -1,14 +1,13 @@
 body {
-  
+  background-color: white;
+  color: black;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#root {
-
-}
-
-.book {
-  border: 1px solid white;
-}
+#root {}
 
 
 /* 

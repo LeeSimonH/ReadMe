@@ -1,36 +1,32 @@
+import './Home.css';
 import { useState, useEffect } from 'react';
 
-function Shelf() {
-  // const [books, setBooks] = useState([]);
+import Shelf from '../components/Shelf';
+import NewBookForm from '../components/NewBookForm';
+import Book from '../components/Book';
+import { BookProps } from '../types/types';
 
-  
+import Button from '@mui/material/Button';
 
-  return (
-    <div className="shelf">
-      <Book title="Infinite Jest" author="David Foster Wallace" />
-      <Book title="Pachinko" author="Min Jin Lee" />
-    </div>
-  )
-}
+function Home(): React.ReactNode {
+  const [books, setBooks] = useState<
+    Array<BookProps>
+  >([]);
 
-function Book({title, author}) {
 
-  return (
-    <div className="book">
-      <h1 className="title">{title}</h1>
-      <h2 className="author">{author}</h2>
-    </div>
-  )
-}
-
-function Home() {
-  
+  function addBookToShelf(props: BookProps) {
+    setBooks(currBooks => {
+      console.log(books);
+      return [...currBooks, props];
+    });
+  }
 
   return (
-    <div className="Homepage">
-      <Shelf />
+    <div id="Home">
+      <Shelf books={books} />
+      <NewBookForm onSubmit={addBookToShelf} />
     </div>
-  )
+  );
 }
 
 export default Home;
