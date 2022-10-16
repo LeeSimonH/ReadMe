@@ -1,6 +1,25 @@
+export type User = {
+  _id: string;
+  email: string;
+  name: string;
+  picture: string | null;
+}
+
 export type BookProps = {
   title: string;
-  author: string;
+  subtitle?: string;
+  authors: string[];
+  publisher: string;
+  publishedDate: string;
+  description: string | null;
+  pageCount: number;
+  categories: string[];
+  rating: number | null;
+  imageLinks: {
+    smallThumbnail: string;
+    thumbnail: string;
+  };
+  language: string;
 };
 
 export type GoogleUser = {

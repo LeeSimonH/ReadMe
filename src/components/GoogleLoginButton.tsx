@@ -6,6 +6,8 @@ function GoogleLoginBtn({ onCallbackResponse }): JSX.Element {
     const CLIENT_ID: string = credentials.web.client_id;
     console.log(CLIENT_ID);
 
+    // DO NOT REMOVE COMMENT BELOW
+    // IDENTIFIES GLOBAL GOOGLE OBJECT
     /* global google */
 
     google.accounts.id.initialize({
@@ -17,6 +19,9 @@ function GoogleLoginBtn({ onCallbackResponse }): JSX.Element {
       document.getElementById('google-sign-in'),
       { theme: 'outline', size: 'large' }
     )
+
+    // one-tap prompt
+    google.accounts.id.prompt();
   }, [])
 
   return (

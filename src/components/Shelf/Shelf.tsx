@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 
-import Book from '../components/Book';
-import { BookProps } from '../types/types';
+import Book from './../Book/Book';
+import { BookProps } from '../../types/types';
 
 function Shelf({ books }) {
   const [displayBooks, setDisplayBooks] = useState<Array<JSX.Element>>([]);

@@ -1,23 +1,35 @@
-import { useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
-import { GoogleUser } from '../types/types';
 import jwt_decode from "jwt-decode";
+
+import { GoogleLogin } from '@react-oauth/google';
 import '../App.css';
 
-import GoogleLoginBtn from '../components/GoogleLoginButton';
 
 function Login(): JSX.Element {
   const { setUser } = useContext(UserContext);
+  const [accessToken, setAccessToken] = useState(null);
 
-  function handleCallbackResponse(response) {
-    console.log('Encoded JWT ID token: ', response.credential);
-    const userObject: GoogleUser = jwt_decode(response.credential);
-    console.log('user object: ', userObject);
-    setUser(userObject);
+  async function handleCallbackResponse(tokenResponse) {
+    console.log('Token response ', tokenResponse);
+    console.log('Encoded JWT ID token: ', tokenResponse.credential);
+    console.log('decoded JWT: ', jwt_decode(tokenResponse.credential));
+
+    const decodedTokenCredential = jwt_decode(tokenResponse.credential);
+    console.log('decoded JWT: ', decodedTokenCredential);
+
+    setUser(decodedTokenCredential);
   }
 
+
   return (
-    <GoogleLoginBtn onCallbackResponse={handleCallbackResponse} />
+    <GoogleLogin
+      onSuccess={handleCallbackResponse}
+      onError={() => {
+        console.log('Login failed')
+      }}
+    />
+    // <GoogleLoginBtn onCallbackResponse={handleCallbackResponse} />
   )
 }
 
