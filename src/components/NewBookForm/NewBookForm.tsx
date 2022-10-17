@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './NewBookForm.css'
 
-import { BookProps } from '../types/types';
+import { BookProps } from '../../types/types';
 
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';

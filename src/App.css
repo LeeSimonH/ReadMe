@@ -9,17 +9,6 @@ body {
 
 #root {}
 
-.app-link {
-  font-size: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  display: inline-block;
-  color: white;
-  background-color: darkgrey;
-  padding: 1em 2em;
-  border-radius: 2em
-}
-
 /* 
 .logo {
   height: 6em;

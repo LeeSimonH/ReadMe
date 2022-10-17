@@ -1,8 +1,9 @@
-import React from 'react';
+// import React from 'react';
 import './Book.css'
-import { BookProps } from '../types/types';
+import { BookProps } from '../../types/types';
 
-function Book({ title, author }: BookProps): JSX.Element {
+function Book({ title, author }): JSX.Element {
+
 
   return (
     <div className="book">
