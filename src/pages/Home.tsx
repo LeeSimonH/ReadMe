@@ -8,8 +8,6 @@ import Search from '../components/Search/Search';
 import Shelf from '../components/Shelf/Shelf';
 import NewBookForm from '../components/NewBookForm/NewBookForm';
 
-import { BookProps } from '../types/types';
-
 import Button from '@mui/material/Button';
 import SearchResults from '../components/SearchResults/SearchResults';
 

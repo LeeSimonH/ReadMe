@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import credentials from '../../gapi-credentials.json';
 
 function GoogleLoginBtn({ onCallbackResponse }): JSX.Element {
   useEffect(() => {
-    const CLIENT_ID: string = credentials.web.client_id;
+    const CLIENT_ID: string = import.meta.env.VITE_GOOGLE_CLIENT_ID;
     console.log(CLIENT_ID);
 
     // DO NOT REMOVE COMMENT BELOW
