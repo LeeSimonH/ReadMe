@@ -5,7 +5,7 @@ export type User = {
   picture: string | null;
 }
 
-export type BookProps = {
+export type VolumeInfo = {
   title: string;
   subtitle?: string;
   authors: string[];

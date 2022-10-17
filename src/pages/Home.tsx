@@ -4,12 +4,14 @@ import UserContext from '../contexts/UserContext';
 import { googleLogout } from '@react-oauth/google';
 
 import UserHero from '../components/UserHero/UserHero';
+import Search from '../components/Search/Search';
 import Shelf from '../components/Shelf/Shelf';
 import NewBookForm from '../components/NewBookForm/NewBookForm';
 
 import { BookProps } from '../types/types';
 
 import Button from '@mui/material/Button';
+import SearchResults from '../components/SearchResults/SearchResults';
 
 function Home(): JSX.Element {
   const { user, setUser } = useContext(UserContext);
@@ -29,7 +31,6 @@ function Home(): JSX.Element {
     setUser(null);
   }
 
-
   const [shelf, setShelf] = useState([]);
 
   function addBookToShelf(props: BookProps) {
@@ -42,6 +43,7 @@ function Home(): JSX.Element {
   return (
     <div id="Home">
       <UserHero name={user.name} imageLink={user.picture ? user.picture : null} />
+      <Search />
       <Button variant="outlined" onClick={handleSignout} >Sign out</Button>
       <Shelf books={shelf} />
       <NewBookForm onSubmit={addBookToShelf} />
