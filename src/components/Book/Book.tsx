@@ -21,7 +21,6 @@ function BookModal({ volumeInfo }) {
 function Book({ id, volumeInfo }) {
   const { title, subtitle, authors, averageRating, pageCount, imageLinks } = volumeInfo;
 
-  const [open, setOpen] = useState(false);
   const [link, setLink] = useState('#')
 
   useEffect(() => {
@@ -34,41 +33,33 @@ function Book({ id, volumeInfo }) {
     } else {
       setLink("https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg");
     }
-
   }, [])
 
 
   return (
-    <>
-      {!open ? (
-        <Stack direction="row" className="book-info-container">
-          <Box className="book-container">
-            <div className="book">
-              <img
-                alt={title}
-                src={link}
-              />
-            </div>
-          </Box>
-          <Stack className="book-info">
-            <span><strong>Title:</strong> {subtitle ? title : `${title}, ${subtitle}`}</span>
-            <span><strong>Author(s):</strong> {authors.join(', ')}</span>
-            <span><strong>Pages:</strong> {pageCount ? pageCount : 'N/A'}</span>
-            {/* <span><strong>Avg. Rating:</strong> {averageRating}</span> */}
-          </Stack>
-          <Button
-            className="add-to-shelf-btn"
-            variant="outlined"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >Add Book</Button>
-        </Stack>
-      ) : (
-        <BookModal volumeInfo={volumeInfo} />
-      )}
-    </>
-
+    <Stack direction="row" className="book-info-container">
+      <Box className="book-container">
+        <div className="book">
+          <img
+            alt={title}
+            src={link}
+          />
+        </div>
+      </Box>
+      <Stack className="book-info">
+        <span><strong>Title:</strong> {subtitle ? title : `${title}, ${subtitle}`}</span>
+        <span><strong>Author(s):</strong> {authors.join(', ')}</span>
+        <span><strong>Pages:</strong> {pageCount ? pageCount : 'N/A'}</span>
+        {/* <span><strong>Avg. Rating:</strong> {averageRating}</span> */}
+      </Stack>
+      <Button
+        className="add-to-shelf-btn"
+        variant="outlined"
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+      >Add Book</Button>
+    </Stack>
   )
 }
 

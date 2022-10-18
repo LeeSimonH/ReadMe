@@ -21,11 +21,7 @@ function SearchResults({ results }) {
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
-    setSearchResults(results.map(book => {
-      return (
-        <Book id={book.id} volumeInfo={book.volumeInfo} />
-      )
-    }));
+    setSearchResults(results.map(book => <Book id={book.id} volumeInfo={book.volumeInfo} />));
   }, [])
 
   return (
@@ -54,14 +50,14 @@ function Search() {
     setShowingResults(true);
   }
 
-  function handleSubmit(e) {
+  function handleSearch(e) {
     e.preventDefault();
     googleBookSearch(searchText);
   }
 
   return (
     <div id="search-container">
-      <form id="search" onSubmit={e => handleSubmit(e)}>
+      <form id="search" onSubmit={e => handleSearch(e)}>
         <FormControl>
           <TextField
             id="search-text"
@@ -94,7 +90,6 @@ function Search() {
         }
       </form>
       {showingResults && <SearchResults results={searchResults} />}
-
     </div>
 
   )
