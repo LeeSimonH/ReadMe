@@ -1,5 +1,12 @@
 #Home {
+  margin-top: 2em;
+  width: 600px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 1rem
+}
+
+#signout-btn {
+  align-self: flex-end;
 }

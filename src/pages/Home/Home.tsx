@@ -2,6 +2,7 @@ import './Home.css';
 import { useState, useEffect, useContext } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 
+import LoadingCircle from '../../components/LoadingCircle/LoadingCircle';
 import UserHero from '../../components/UserHero/UserHero';
 import Search from '../../components/Search/Search';
 import Shelf from '../../components/Shelf/Shelf';
@@ -38,27 +39,31 @@ function Home({ session }): JSX.Element {
 
   const [shelf, setShelf] = useState([]);
 
-  function addBookToShelf(props) {
-    setShelf(currBooks => {
-      console.log('shelf: ' + shelf);
-      return [...currBooks, props];
-    });
-  }
+  // function addBookToShelf(props) {
+  //   setShelf(currBooks => {
+  //     console.log('shelf: ' + shelf);
+  //     return [...currBooks, props];
+  //   });
+  // }
 
   return (
     <div id="Home">
       {loading ? (
-        "Loading your profile..."
+        <LoadingCircle />
       ) : (
         <>
+          <Button
+            id="signout-btn"
+            variant="outlined"
+            onClick={handleSignout}
+          >Sign out</Button>
           <UserHero
             name={session.user.user_metadata.full_name}
             imageLink={session.user.user_metadata.picture}
           />
           <Search />
-          <Button variant="outlined" onClick={handleSignout} >Sign out</Button>
           <Shelf books={shelf} />
-          <NewBookForm onSubmit={addBookToShelf} />
+          {/* <NewBookForm onSubmit={addBookToShelf} /> */}
         </>
       )}
     </div>

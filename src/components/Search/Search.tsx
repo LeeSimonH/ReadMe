@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import './Search.css';
+import axios from 'axios';
 
-// import SearchResults from '../SearchResults/SearchResults';
-// import { VolumeInfo } from './../../types/types';
+import Book from '../Book/Book';
 
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -12,54 +12,28 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-async function googleBookSearch(searchText: string) {
-  const baseURL = 'https://www.googleapis.com/books/v1/volumes';
-
-  // max results allowable is 40
-  // const requestParams = {
-  //   q: searchText,
-  //   startIndex: 0,
-  //   maxResults: 20
-  // };
-
-  const results = await fetch(baseURL + `?q=${searchText}`)
-    .then(response => response.json())
-    .then(data => {
-      return data.items;
-    })
-    .catch(err => console.log('There was an error with your search.', err))
-
-  return results;
-}
-
-
-function BookResult({ id, volumeInfo }) {
-  console.log('adding book info: ', volumeInfo);
-  const { title, authors, averageRating, pageCount } = volumeInfo;
-
-  return (
-    <Grid className="search-result-book" item xs={4}>
-      <span>Title: {title}</span>
-      <span>Authors: {authors}</span>
-      <span>Avg. Rating: {averageRating}</span>
-      <span>Pages: {pageCount}</span>
-    </Grid>
-  )
-}
+const baseURL = 'https://www.googleapis.com/books/v1/volumes';
 
 function SearchResults({ results }) {
+  const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+    setSearchResults(results.map(book => {
+      return (
+        <Book id={book.id} volumeInfo={book.volumeInfo} />
+      )
+    }));
+  }, [])
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid id="search-results" container spacing={2}>
-        {results ? results.map(book => {
-          <BookResult key={book.id} id={book.id} volumeInfo={book.volumeInfo} />
-        }) : null}
-      </Grid>
+    <Box id="search-results-container" sx={{ flexGrow: 1 }}>
+      <Stack id="search-results" spacing={2}>
+        {searchResults}
+      </Stack>
     </Box>
-
   )
 }
 
@@ -68,16 +42,21 @@ function Search() {
   const [searchResults, setSearchResults] = useState([]);
   const [showingResults, setShowingResults] = useState(false);
 
-  async function handleSubmit(e) {
+  async function googleBookSearch(text: string) {
+    setShowingResults(false);
+    setSearchResults([]);
+
+    const { data: { items } } = await axios.get(baseURL + `?q=${text}`);
+    const bookResults = items;
+    console.log('GBooks search book results: ', bookResults);
+
+    setSearchResults(bookResults);
+    setShowingResults(true);
+  }
+
+  function handleSubmit(e) {
     e.preventDefault();
-    const results = await googleBookSearch(searchText);
-    console.log(results);
-    setSearchResults(results);
-    setTimeout(() => {
-      console.log('your search results: ', searchResults);
-      setShowingResults(true);
-      setSearchText('');
-    }, 2000)
+    googleBookSearch(searchText);
   }
 
   return (
@@ -100,8 +79,21 @@ function Search() {
             }}
           />
         </FormControl>
+        {showingResults &&
+          <Button
+            variant="text"
+            onClick={(e) => {
+              e.preventDefault();
+              setSearchResults([]);
+              setSearchText('');
+              setShowingResults(false);
+            }}
+          >
+            Clear Results
+          </Button>
+        }
       </form>
-      {showingResults ? <SearchResults results={searchResults} /> : 'Nothing to show yet...'}
+      {showingResults && <SearchResults results={searchResults} />}
 
     </div>
 
