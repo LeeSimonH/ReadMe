@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
-import credentials from '../../gapi-credentials.json';
+import { useEffect } from 'react';
+import jwt_decode from "jwt-decode";
 
-function GoogleLoginBtn({ onCallbackResponse }): JSX.Element {
+function GoogleLoginBtn(/* onCallBackResponse */): JSX.Element {
   useEffect(() => {
-    const CLIENT_ID: string = credentials.web.client_id;
-    console.log(CLIENT_ID);
+    const CLIENT_ID: string = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
     // DO NOT REMOVE COMMENT BELOW
     // IDENTIFIES GLOBAL GOOGLE OBJECT
@@ -12,7 +11,14 @@ function GoogleLoginBtn({ onCallbackResponse }): JSX.Element {
 
     google.accounts.id.initialize({
       client_id: CLIENT_ID,
-      callback: onCallbackResponse,
+      // callback: onCallbackResponse,
+      callback: (tokenResponse) => {
+        console.log('Token response ', tokenResponse);
+        console.log('Encoded JWT ID token: ', tokenResponse.credential);
+
+        const decodedTokenCredential = jwt_decode(tokenResponse.credential);
+        console.log('decoded JWT: ', jwt_decode(tokenResponse.credential));
+      }
     });
 
     google.accounts.id.renderButton(
@@ -21,7 +27,7 @@ function GoogleLoginBtn({ onCallbackResponse }): JSX.Element {
     )
 
     // one-tap prompt
-    google.accounts.id.prompt();
+    // google.accounts.id.prompt();
   }, [])
 
   return (

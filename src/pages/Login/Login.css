@@ -1,0 +1,17 @@
+#auth-form {
+  border: 1px solid black;
+  border-radius: 1em;
+  margin-top: 40px;
+}
+
+#auth-form>form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 2em;
+  gap: 1em;
+}
+
+.btn-group {
+  justify-content: space-between;
+}
