@@ -15,7 +15,7 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "types": ["vite/client", "node"],
+    "types": ["vite/client"],
 
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -23,5 +23,4 @@
     "jsx": "react-jsx"
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
 }

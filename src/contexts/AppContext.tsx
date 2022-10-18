@@ -9,24 +9,24 @@ const AppContextProvider = ({ children }) => {
   const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  const [user, setUser] = useState("");
+
   const [error, setError] = useState("");
+
+  async function signInWithEmail(email: string, password: string) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+  }
 
   async function signInWithGoogle() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-    })
-
-    if (data) {
-      console.log('sign in successful! returned data: ', data);
-    } else if (error) {
-      console.log('error occured signing in: ', error)
-    }
+    });
   }
 
   async function signout() {
     const { error } = await supabase.auth.signOut()
-
   }
 
   return (
@@ -35,8 +35,9 @@ const AppContextProvider = ({ children }) => {
         supabase,
         auth: supabase.auth,
         error,
-        user,
-        setUser,
+        signInWithGoogle,
+        signInWithEmail,
+        signout
       }}
     >
       {children}
