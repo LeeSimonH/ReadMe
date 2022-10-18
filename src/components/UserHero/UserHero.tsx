@@ -13,7 +13,7 @@ function UserHero({ name, imageLink }) {
       spacing={2}
     >
       <Avatar className="image" alt={name} src={imageLink ? imageLink : null} />
-      <div>Hello, {name}!</div>
+      <h2>Welcome back, {name}.</h2>
     </Stack>
   )
 }
