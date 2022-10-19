@@ -1,25 +1,3 @@
-.book-info-container {
-  height: 150px;
-  border-radius: 1em;
-  /* background-color: whitesmoke; */
-  box-shadow: .2em .2em .5em whitesmoke;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 2em;
-
-  padding: 1em;
-}
-
-.book-info {
-  width: 300px;
-}
-
-.book-container {
-  perspective: 500px;
-}
-
 @keyframes initAnimation {
   0% {
     transform: rotateY(0deg);
@@ -54,6 +32,11 @@
   /* background-color: #01060f; */
   border-radius: 0 3px 3px 0;
   box-shadow: 3px 3px 5px #666;
+}
+
+.on-shelf,
+.on-shelf> :first-child {
+  height: 100px;
 }
 
 /* .book::before {

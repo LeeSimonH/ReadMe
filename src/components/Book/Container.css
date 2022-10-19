@@ -1,0 +1,17 @@
+.book-info-container {
+  height: 150px;
+  border-radius: 1em;
+  /* background-color: whitesmoke; */
+  box-shadow: .2em .2em .5em whitesmoke;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2em;
+
+  padding: 1em;
+}
+
+.book-container {
+  perspective: 500px;
+}

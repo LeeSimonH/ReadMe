@@ -1,22 +1,35 @@
+import './Shelf.css';
 import { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
 
-import Book from './../Book/Book';
-import { BookProps } from '../../types/types';
+import Thumbnail from '../Book/Thumbnail/Thumbnail';
+
+import Stack from '@mui/material/Stack';
 
 function Shelf({ books }) {
-  const [displayBooks, setDisplayBooks] = useState<Array<JSX.Element>>([]);
+  const [thumbnailsInfo, setThumbnailsInfo] = useState([]);
 
   useEffect(() => {
-    setDisplayBooks(books.map((book: BookProps) => {
-      return <Book title={book.title} author={book.author} />
-    }))
-  }, [books]);
+    if (books) {
+      (books).forEach((book) => {
+        const id = Object.keys(book)[0];
+        const { title, imageLinks } = book[id];
+        // const { id: { title, imageLinks } } = book;
+        setThumbnailsInfo(prevInfo => [...prevInfo, { id, title, imageLinks }])
+      })
+    }
+
+    return () => {
+      setThumbnailsInfo([])
+    }
+  }, []);
 
   return (
-    <div className="shelf">
-      {displayBooks}
-    </div>
+    <Stack className="shelf" direction="row" spacing={2}>
+      {thumbnailsInfo.map(thumbnailInfo => {
+        const { id, title, imageLinks } = thumbnailInfo;
+        return <Thumbnail key={id} title={title} imageLinks={imageLinks} onShelf={true} />
+      })}
+    </Stack>
   )
 }
 
