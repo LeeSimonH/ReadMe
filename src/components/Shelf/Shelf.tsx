@@ -1,34 +1,35 @@
 import './Shelf.css';
 import { useState, useEffect } from 'react';
 
-import { singleBookSearch } from '../../services/google';
+import Thumbnail from '../Book/Thumbnail/Thumbnail';
 
-import Book from './../Book/Book';
+import Stack from '@mui/material/Stack';
 
-import Button from '@mui/material/Button';
-
-function Shelf({ bookIDs }) {
-  const [displayBooks, setDisplayBooks] = useState<Array<JSX.Element>>([]);
+function Shelf({ books }) {
+  const [thumbnailsInfo, setThumbnailsInfo] = useState([]);
 
   useEffect(() => {
-    if (bookIDs) {
-      // query GoogleBooks API for each ID
-      // TO-DO: cache API responses
-      bookIDs.forEach(bookID => {
-        singleBookSearch(bookID).then(bookData => {
-          const { id, volumeInfo } = bookData;
-          setDisplayBooks(prevBooks => [...prevBooks, <Book id={id} volumeInfo={volumeInfo} />])
-        })
+    if (books) {
+      (books).forEach((book) => {
+        const id = Object.keys(book)[0];
+        const { title, imageLinks } = book[id];
+        // const { id: { title, imageLinks } } = book;
+        setThumbnailsInfo(prevInfo => [...prevInfo, { id, title, imageLinks }])
       })
-      // return <Book id = { id } volumeInfo = { volumeInfo } />
     }
 
+    return () => {
+      setThumbnailsInfo([])
+    }
   }, []);
 
   return (
-    <div className="shelf">
-      {displayBooks}
-    </div>
+    <Stack className="shelf" direction="row" spacing={2}>
+      {thumbnailsInfo.map(thumbnailInfo => {
+        const { id, title, imageLinks } = thumbnailInfo;
+        return <Thumbnail key={id} title={title} imageLinks={imageLinks} onShelf={true} />
+      })}
+    </Stack>
   )
 }
 

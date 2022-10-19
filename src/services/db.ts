@@ -1,8 +1,12 @@
 import { db, auth } from './firebase';
 import {
+  query,
+  where,
   collection,
   doc,
+  addDoc,
   getDoc,
+  getDocs,
   setDoc,
   updateDoc,
   arrayUnion,
@@ -24,23 +28,29 @@ export async function getUserDoc(userID: string) {
 }
 
 export async function getAllUserBooks() {
-  const allBooksRef = doc(db, 'users', auth.currentUser?.uid, 'shelves', 'allBooks');
-  const allBooksSnap = await getDoc(allBooksRef);
+  const currentUserID = auth.currentUser?.uid;
+  const allBooksRef = collection(db, 'users', currentUserID, 'allBooks');
+  const q = query(allBooksRef);
+  const allBooksSnap = await getDocs(q);
 
-  if (allBooksSnap.exists()) {
-    return allBooksSnap.data();
+  if (allBooksSnap) {
+    const allBooks = [];
+    allBooksSnap.forEach(doc => {
+      allBooks.push(doc.data());
+    })
+    return allBooks;
   } else {
     console.log("could not find the user's books");
   }
 }
 
-export async function addBookToUserShelf(shelfName: string, bookID: string) {
-  console.log(`adding book ${bookID} to shelf ${shelfName}`);
+export async function addBookToUserShelf(bookID: string, bookInfo) {
   const currentUserID = auth.currentUser?.uid;
-  const userRef = doc(db, 'users', currentUserID);
+  console.log(`adding book ${bookID} to ${currentUserID}'s allBooks collection`);
 
-  // const shelfRef = doc(db, `users/${currentUserID}/shelves/${shelfName}`);
-  const shelfRef = doc(db, 'users', currentUserID, 'shelves', shelfName);
+  const allUserBooksRef = collection(db, 'users', currentUserID, 'allBooks');
+  const newBookData = {};
+  newBookData[`${bookID}`] = bookInfo;
 
-  setDoc(shelfRef, { books: arrayUnion(bookID) }, { merge: true });
+  addDoc(allUserBooksRef, newBookData);
 }

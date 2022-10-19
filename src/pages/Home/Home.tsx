@@ -27,7 +27,7 @@ function Home({ userID }): JSX.Element {
         getAllUserBooks()
           .then(bookCollection => {
             console.log('user books retrieved: ', bookCollection);
-            setShelf(bookCollection.books);
+            setShelf(bookCollection);
             setLoading(false);
           })
           .catch(err => console.log(err));
@@ -53,7 +53,7 @@ function Home({ userID }): JSX.Element {
             name={user.fullName}
             imageLink={user.photoURL}
           />
-          <Shelf bookIDs={shelf} />
+          <Shelf books={shelf} />
           <Search />
         </>
       )}

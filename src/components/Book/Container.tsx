@@ -1,45 +1,25 @@
-import './Book.css';
+import './Container.css';
 import { useState, useEffect } from 'react';
 
 import { addBookToUserShelf } from '../../services/db';
 
+import Thumbnail from './Thumbnail/Thumbnail';
 import InfoModal from './InfoModal/InfoModal';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-function Book({ id, volumeInfo }) {
-  const { title, imageLinks } = volumeInfo;
-  const [link, setLink] = useState('#');
-
+export default function Container({ id, volumeInfo }) {
   function addBookToShelf(e/* , shelfName:string, bookID: string */): void {
     e.preventDefault();
-    addBookToUserShelf('allBooks', id);
+    const addedBook = addBookToUserShelf(id, volumeInfo);
   }
-
-  useEffect(() => {
-    if (imageLinks) {
-      if (imageLinks.hasOwnProperty("thumbnail")) {
-        setLink(imageLinks.thumbnail);
-      } else if (imageLinks.hasOwnProperty("smallThumbnail")) {
-        setLink(imageLinks.smallThumbnail);
-      }
-    } else {
-      setLink("https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg");
-    }
-  }, [])
-
 
   return (
     <Stack direction="row" className="book-info-container">
       <Box className="book-container">
-        <div className="book">
-          <img
-            alt={title}
-            src={link}
-          />
-        </div>
+        <Thumbnail title={volumeInfo.title} imageLinks={volumeInfo.imageLinks} onShelf={false} />
       </Box>
       <InfoModal volumeInfo={volumeInfo} isModal={false} />
       <Button
@@ -50,5 +30,3 @@ function Book({ id, volumeInfo }) {
     </Stack>
   )
 }
-
-export default Book;
