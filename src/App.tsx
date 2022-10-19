@@ -7,19 +7,18 @@ import Home from './pages/Home/Home';
 import Auth from './pages/Auth/Auth';
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [userID, setUserID] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  // const [session, setSession] = useState(null);
 
   useEffect(() => {
-    onAuthStateChanged(auth, signedInUser => {
-      if (signedInUser) {
+    onAuthStateChanged(auth, user => {
+      if (user) {
         // user is signed in
-        setUser(signedInUser);
-        setAccessToken(signedInUser.accessToken);
+        setUserID(user.uid);
+        setAccessToken(user.accessToken);
       } else {
         // user is signed out
-        setUser(null);
+        setUserID(null);
         setAccessToken(null);
       }
     })
@@ -27,8 +26,8 @@ function App() {
 
   return (
     <div className="App">
-      {user ? (
-        <Home user={user} />
+      {userID ? (
+        <Home userID={userID} />
       ) : (
         <Auth />
       )}

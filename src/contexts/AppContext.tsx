@@ -37,82 +37,36 @@ const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
 
-  console.log(app);
+  // async function createUser(email: string, password: string) {
+  //   return createUserWithEmailAndPassword(auth, email, password)
+  //     .then(userCredential => {
+  //       const newUser = userCredential.user;
+  //       console.log('new user created: ', newUser);
+  //       setUser(newUser);
+  //     })
+  //     .catch(err => {
+  //       console.log('error code: ', err.code);
+  //       console.log('error message: ', err.message)
+  //     })
+  // }
 
-  function signInWithGAuth() {
-    signInWithRedirect(auth, provider);
-  }
-
-  function getGAuthToken() {
-    getRedirectResult(auth)
-      .then(result => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        setAccessToken(token);
-
-        // signed in user info
-        const userInfo = result.user;
-        console.log('signed-in user info: ', userInfo);
-      }).catch(err => {
-        // Handle Errors here.
-
-        // The email of the user's account used.
-        const email = err.customData.email;
-
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(err);
-
-        console.log('Error occured for user:', email);
-        console.log('error code: ', err.code);
-        console.log('error message: ', err.message);
-        console.log('type of AuthCredential used: ', credential);
-      })
-  }
-
-  async function createUser(email: string, password: string) {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
-        const newUser = userCredential.user;
-        console.log('new user created: ', newUser);
-        setUser(newUser);
-      })
-      .catch(err => {
-        console.log('error code: ', err.code);
-        console.log('error message: ', err.message)
-      })
-  }
-
-  async function signInWithEmail(email: string, password: string) {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
-        const signedInUser = userCredential.user;
-        console.log('new user signed in: ', signedInUser);
-        setUser(signedInUser);
-      })
-      .catch(err => {
-        console.log('error code: ', err.code);
-        console.log('error message: ', err.message)
-      })
-  }
+  // async function signInWithEmail(email: string, password: string) {
+  //   signInWithEmailAndPassword(auth, email, password)
+  //     .then(userCredential => {
+  //       const signedInUser = userCredential.user;
+  //       console.log('new user signed in: ', signedInUser);
+  //       setUser(signedInUser);
+  //     })
+  //     .catch(err => {
+  //       console.log('error code: ', err.code);
+  //       console.log('error message: ', err.message)
+  //     })
+  // }
 
   return (
     <AppContext.Provider
-      value={{
-        auth,
-        db,
-        provider,
-        signOut,
-        createUser,
-        signInWithEmail,
-        signInWithGAuth,
-        getGAuthToken
-      }}
+      value={ }
     >
       {children}
     </AppContext.Provider >

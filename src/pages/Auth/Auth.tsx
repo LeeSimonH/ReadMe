@@ -1,14 +1,7 @@
 import './Auth.css';
 import { useState, useContext, useEffect } from 'react';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithPopup,
-  getRedirectResult,
-} from 'firebase/auth';
-import { auth, provider } from './../../services/firebase';
+
+import { signInWithGooglePopup, signInWithEmail, createUser } from '../../services/auth';
 
 import LoginForm from '../../components/Auth/LoginForm';
 import SignUpForm from '../../components/Auth/SignUpForm';
@@ -35,23 +28,7 @@ export default function Auth(): JSX.Element {
   }
 
   function handleGoogleLogin() {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        console.log('returned token: ', token);
-        // The signed-in user info.
-        const user = result.user;
-        console.log('the signed-in user: ', user);
-      }).catch((error) => {
-        // Handle Errors 
-        console.log('There was an error signing in with google.')
-        console.log('Error code: ', error.code);
-        console.log('Error message: ', error.message);
-        console.log('Email used: ', error.customData.email);
-        console.log('AuthCredential type used: ', GoogleAuthProvider.credentialFromError(error));
-      });
+    signInWithGooglePopup();
   }
 
   // TO-DO: Extract Login/Sign Up Form components

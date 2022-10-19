@@ -1,6 +1,7 @@
 import './Home.css';
 import { useState, useEffect, useContext } from 'react';
-import { signOut } from 'firebase/auth';
+import { signout } from '../../services/auth';
+import { getUserDoc } from '../../services/db';
 
 import LoadingCircle from '../../components/LoadingCircle/LoadingCircle';
 import UserHero from '../../components/UserHero/UserHero';
@@ -8,21 +9,26 @@ import Search from '../../components/Search/Search';
 import Shelf from '../../components/Shelf/Shelf';
 
 import Button from '@mui/material/Button';
-// import SearchResults from '../../components/SearchResults/SearchResults';
 
-function Home({ user }): JSX.Element {
+function Home({ userID }): JSX.Element {
   const [loading, setLoading] = useState(true);
-  const [shelf, setShelf] = useState([]);
-
-  const { email, displayName, photoURL, uid } = user;
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    console.log('signed in as user: ', user);
-    setLoading(false);
+    setLoading(true);
+
+    getUserDoc(userID)
+      .then(userDoc => {
+        console.log('user doc retrieved: ', userDoc);
+        setUser(userDoc);
+        setLoading(false);
+      })
+      .catch(err => console.log(err));
+
   }, [])
 
   function handleSignout() {
-    signOut();
+    signout();
   }
 
   return (
@@ -39,11 +45,11 @@ function Home({ user }): JSX.Element {
             Sign out
           </Button>
           <UserHero
-            name={displayName}
-            imageLink={photoURL}
+            name={user.full_name}
+            imageLink={user.photoURL}
           />
           <Search />
-          <Shelf books={shelf} />
+          {/* <Shelf books={shelf} /> */}
         </>
       )}
     </div>
