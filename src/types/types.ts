@@ -38,3 +38,44 @@ export type GoogleUser = {
   picture: string | null;
   sub: string;
 };
+
+// export type FirebaseUser = {
+  // properties
+//   displayName: string;
+//   email;
+//   emailVerified;
+//   isAnonymous;
+//   metadata;
+//   multiFactor;
+//   phoneNumber;
+//   photoURL;
+//   providerData;
+//   providerId;
+//   refreshToken;
+//   tenantId;
+//   uid;
+
+  // methods
+// delete
+//   getIdToken
+// getIdTokenResult
+// linkAndRetrieveDataWithCredential
+// linkWithCredential
+// linkWithPhoneNumber
+// linkWithPopup
+// linkWithRedirect
+// reauthenticateAndRetrieveDataWithCredential
+// reauthenticateWithCredential
+// reauthenticateWithPhoneNumber
+// reauthenticateWithPopup
+// reauthenticateWithRedirect
+// reload
+// sendEmailVerification
+// toJSON
+// unlink
+// updateEmail
+// updatePassword
+// updatePhoneNumber
+// updateProfile
+// verifyBeforeUpdateEmail
+// }

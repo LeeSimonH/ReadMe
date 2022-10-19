@@ -1,30 +1,35 @@
-import { useState, useEffect } from 'react';
-import { useAppContext } from './contexts/AppContext';
 import './App.css';
+import { useState, useEffect } from 'react';
+import { auth } from './services/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 import Home from './pages/Home/Home';
-import Login from './pages/Login/Login';
+import Auth from './pages/Auth/Auth';
 
 function App() {
-  const [session, setSession] = useState(null);
-  const { auth } = useAppContext();
+  const [userID, setUserID] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
-    auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    })
-
-    auth.onAuthStateChange((_event, session) => {
-      setSession(session);
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        // user is signed in
+        setUserID(user.uid);
+        setAccessToken(user.accessToken);
+      } else {
+        // user is signed out
+        setUserID(null);
+        setAccessToken(null);
+      }
     })
   }, [])
 
   return (
     <div className="App">
-      {session ? (
-        <Home session={session} />
+      {userID ? (
+        <Home userID={userID} />
       ) : (
-        <Login />
+        <Auth />
       )}
     </div>
   )

@@ -1,50 +1,35 @@
 import './Home.css';
 import { useState, useEffect, useContext } from 'react';
-import { useAppContext } from '../../contexts/AppContext';
+import { signout } from '../../services/auth';
+import { getUserDoc } from '../../services/db';
 
 import LoadingCircle from '../../components/LoadingCircle/LoadingCircle';
 import UserHero from '../../components/UserHero/UserHero';
 import Search from '../../components/Search/Search';
 import Shelf from '../../components/Shelf/Shelf';
-import NewBookForm from '../../components/NewBookForm/NewBookForm';
 
 import Button from '@mui/material/Button';
-import SearchResults from '../../components/SearchResults/SearchResults';
 
-function Home({ session }): JSX.Element {
+function Home({ userID }): JSX.Element {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const { signout } = useAppContext();
 
   useEffect(() => {
-    getProfile();
-  }, [])
+    setLoading(true);
 
-  async function getProfile() {
-    try {
-      setLoading(true);
-      const { user } = session;
-      setUser(user);
-      console.log('current user: ', user);
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setLoading(false);
-    }
-  }
+    getUserDoc(userID)
+      .then(userDoc => {
+        console.log('user doc retrieved: ', userDoc);
+        setUser(userDoc);
+        setLoading(false);
+      })
+      .catch(err => console.log(err));
+
+  }, [])
 
   function handleSignout() {
     signout();
   }
-
-  const [shelf, setShelf] = useState([]);
-
-  // function addBookToShelf(props) {
-  //   setShelf(currBooks => {
-  //     console.log('shelf: ' + shelf);
-  //     return [...currBooks, props];
-  //   });
-  // }
 
   return (
     <div id="Home">
@@ -56,14 +41,15 @@ function Home({ session }): JSX.Element {
             id="signout-btn"
             variant="outlined"
             onClick={handleSignout}
-          >Sign out</Button>
+          >
+            Sign out
+          </Button>
           <UserHero
-            name={session.user.user_metadata.full_name}
-            imageLink={session.user.user_metadata.picture}
+            name={user.full_name}
+            imageLink={user.photoURL}
           />
           <Search />
-          <Shelf books={shelf} />
-          {/* <NewBookForm onSubmit={addBookToShelf} /> */}
+          {/* <Shelf books={shelf} /> */}
         </>
       )}
     </div>
