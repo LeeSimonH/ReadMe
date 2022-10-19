@@ -1,17 +1,29 @@
+import './Shelf.css';
 import { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
+
+import { singleBookSearch } from '../../services/google';
 
 import Book from './../Book/Book';
-import { BookProps } from '../../types/types';
 
-function Shelf({ books }) {
+import Button from '@mui/material/Button';
+
+function Shelf({ bookIDs }) {
   const [displayBooks, setDisplayBooks] = useState<Array<JSX.Element>>([]);
 
   useEffect(() => {
-    setDisplayBooks(books.map((book: BookProps) => {
-      return <Book title={book.title} author={book.author} />
-    }))
-  }, [books]);
+    if (bookIDs) {
+      // query GoogleBooks API for each ID
+      // TO-DO: cache API responses
+      bookIDs.forEach(bookID => {
+        singleBookSearch(bookID).then(bookData => {
+          const { id, volumeInfo } = bookData;
+          setDisplayBooks(prevBooks => [...prevBooks, <Book id={id} volumeInfo={volumeInfo} />])
+        })
+      })
+      // return <Book id = { id } volumeInfo = { volumeInfo } />
+    }
+
+  }, []);
 
   return (
     <div className="shelf">

@@ -1,7 +1,7 @@
 import './Home.css';
 import { useState, useEffect, useContext } from 'react';
 import { signout } from '../../services/auth';
-import { getUserDoc } from '../../services/db';
+import { getUserDoc, getAllUserBooks, addBookToUserShelf } from '../../services/db';
 
 import LoadingCircle from '../../components/LoadingCircle/LoadingCircle';
 import UserHero from '../../components/UserHero/UserHero';
@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 function Home({ userID }): JSX.Element {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [shelf, setShelf] = useState<string[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -21,15 +22,19 @@ function Home({ userID }): JSX.Element {
       .then(userDoc => {
         console.log('user doc retrieved: ', userDoc);
         setUser(userDoc);
-        setLoading(false);
+      })
+      .then(() => {
+        getAllUserBooks()
+          .then(bookCollection => {
+            console.log('user books retrieved: ', bookCollection);
+            setShelf(bookCollection.books);
+            setLoading(false);
+          })
+          .catch(err => console.log(err));
       })
       .catch(err => console.log(err));
 
   }, [])
-
-  function handleSignout() {
-    signout();
-  }
 
   return (
     <div id="Home">
@@ -40,16 +45,16 @@ function Home({ userID }): JSX.Element {
           <Button
             id="signout-btn"
             variant="outlined"
-            onClick={handleSignout}
+            onClick={signout}
           >
             Sign out
           </Button>
           <UserHero
-            name={user.full_name}
+            name={user.fullName}
             imageLink={user.photoURL}
           />
+          <Shelf bookIDs={shelf} />
           <Search />
-          {/* <Shelf books={shelf} /> */}
         </>
       )}
     </div>

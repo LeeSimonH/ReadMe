@@ -12,10 +12,6 @@
   padding: 1em;
 }
 
-.book-info {
-  width: 300px;
-}
-
 .book-container {
   perspective: 500px;
 }

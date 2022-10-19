@@ -1,0 +1,11 @@
+.shelf {
+  height: 100px;
+  width: 100%;
+  border: 10px solid brown;
+
+  display: grid;
+  grid-template-rows: 1;
+  grid-template-columns: auto;
+
+
+}

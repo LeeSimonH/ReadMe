@@ -1,27 +1,22 @@
 import './Book.css';
 import { useState, useEffect } from 'react';
 
+import { addBookToUserShelf } from '../../services/db';
+
+import InfoModal from './InfoModal/InfoModal';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-function BookModal({ volumeInfo }) {
-  const { title, authors, } = volumeInfo;
-
-  return (
-    <Stack className="book-info modal" onClick={handleClick}>
-      <span>Title: {title}</span>
-      <span>Authors: {authors.join(', ')}</span>
-      <span>Avg. Rating: {averageRating}</span>
-      <span>Pages: {pageCount}</span>
-    </Stack>
-  )
-}
-
 function Book({ id, volumeInfo }) {
-  const { title, subtitle, authors, averageRating, pageCount, imageLinks } = volumeInfo;
+  const { title, imageLinks } = volumeInfo;
+  const [link, setLink] = useState('#');
 
-  const [link, setLink] = useState('#')
+  function addBookToShelf(e/* , shelfName:string, bookID: string */): void {
+    e.preventDefault();
+    addBookToUserShelf('allBooks', id);
+  }
 
   useEffect(() => {
     if (imageLinks) {
@@ -46,18 +41,11 @@ function Book({ id, volumeInfo }) {
           />
         </div>
       </Box>
-      <Stack className="book-info">
-        <span><strong>Title:</strong> {subtitle ? title : `${title}, ${subtitle}`}</span>
-        <span><strong>Author(s):</strong> {authors.join(', ')}</span>
-        <span><strong>Pages:</strong> {pageCount ? pageCount : 'N/A'}</span>
-        {/* <span><strong>Avg. Rating:</strong> {averageRating}</span> */}
-      </Stack>
+      <InfoModal volumeInfo={volumeInfo} isModal={false} />
       <Button
         className="add-to-shelf-btn"
         variant="outlined"
-        onClick={(e) => {
-          e.preventDefault();
-        }}
+        onClick={addBookToShelf}
       >Add Book</Button>
     </Stack>
   )
