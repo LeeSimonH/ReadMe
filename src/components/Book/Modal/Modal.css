@@ -1,0 +1,32 @@
+.modal {
+  position: fixed;
+  padding-top: 40vh;
+  top: 0;
+  left: -2rem;
+  z-index: 1;
+  /* height: 100vh;
+  width: 100vw; */
+  height: 100%;
+  width: 100%;
+  padding-top: 50vh;
+  padding-left: 20vw;
+  background-color: rgba(207, 207, 207, 0.685);
+}
+
+.modal-info {
+  z-index: -2;
+  place-self: center;
+  width: 60vw;
+  padding: 2rem;
+  background-color: white;
+  border-radius: .5rem;
+}
+
+.delete-btn {
+  margin-top: 1rem;
+  margin-bottom: -1rem;
+  color: red;
+  /* text-transform: none; */
+  float: right;
+  width: fit-content;
+}
