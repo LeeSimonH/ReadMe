@@ -8,7 +8,7 @@
   }
 }
 
-.book {
+.thumbnail {
   height: 130px;
   width: auto;
   position: relative;
@@ -18,11 +18,11 @@
   animation: 1s ease 0s 1 initAnimation;
 }
 
-.book:hover {
+.thumbnail:hover {
   transform: rotateY(0deg);
 }
 
-.book> :first-child {
+.thumbnail> :first-child {
   /* position: absolute; */
   top: 0;
   left: 0;
@@ -37,6 +37,10 @@
 .on-shelf,
 .on-shelf> :first-child {
   height: 100px;
+}
+
+.on-shelf {
+  position: relative;
 }
 
 /* .book::before {

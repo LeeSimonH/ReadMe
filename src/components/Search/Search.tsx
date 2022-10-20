@@ -18,7 +18,7 @@ function SearchResults({ results }) {
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
-    setSearchResults(results.map(book => <Container key={'result' + book.id} id={book.id} volumeInfo={book.volumeInfo} />));
+    setSearchResults(results.map(book => <Container key={'result' + book.id} bookID={book.id} volumeInfo={book.volumeInfo} />));
   }, [])
 
   return (

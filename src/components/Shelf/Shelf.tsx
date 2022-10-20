@@ -11,10 +11,10 @@ function Shelf({ books }) {
   useEffect(() => {
     if (books) {
       (books).forEach((book) => {
-        const id = Object.keys(book)[0];
-        const { title, imageLinks } = book[id];
+        const bookID = book.bookID
+        const bookInfo = book.volumeInfo;
         // const { id: { title, imageLinks } } = book;
-        setThumbnailsInfo(prevInfo => [...prevInfo, { id, title, imageLinks }])
+        setThumbnailsInfo(prevInfo => [...prevInfo, { bookID, bookInfo }])
       })
     }
 
@@ -26,8 +26,8 @@ function Shelf({ books }) {
   return (
     <Stack className="shelf" direction="row" spacing={2}>
       {thumbnailsInfo.map(thumbnailInfo => {
-        const { id, title, imageLinks } = thumbnailInfo;
-        return <Thumbnail key={id} title={title} imageLinks={imageLinks} onShelf={true} />
+        const { bookID, bookInfo } = thumbnailInfo;
+        return <Thumbnail key={bookID} bookID={bookID} info={bookInfo} onShelf={true} />
       })}
     </Stack>
   )
