@@ -9,6 +9,7 @@ import SignUpForm from '../../components/Auth/SignUpForm';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
+import GoogleIcon from '@mui/icons-material/Google';
 
 export default function Auth(): JSX.Element {
   const [signingUp, setSigningUp] = useState(false);
@@ -34,22 +35,22 @@ export default function Auth(): JSX.Element {
   // TO-DO: Extract Login/Sign Up Form components
   return (
     <Box id="auth-form">
-      <Button onClick={toggleForm}>
-        {signingUp ? 'Sign In' : 'Sign Up'}
-      </Button>
 
       {signingUp ? (
         <SignUpForm onSubmit={handleSignUp} />
       ) : (
-        <LoginForm onSubmit={handleSignIn} />
+        <LoginForm onSubmit={handleSignIn} toggleForm={toggleForm} />
       )}
 
       <Divider>OR</Divider>
 
       <Button
+        id="google-login-btn"
         variant="outlined"
         onClick={handleGoogleLogin}
+        startIcon={<GoogleIcon />}
       >
+
         Log in with Google
       </Button>
     </Box>

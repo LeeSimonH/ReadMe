@@ -1,33 +1,59 @@
 import './Shelf.css';
 import { useState, useEffect } from 'react';
 
+import { getAllUserBooks } from '../../services/db';
+
 import Thumbnail from '../Book/Thumbnail/Thumbnail';
 
 import Stack from '@mui/material/Stack';
 
-function Shelf({ books }) {
-  const [thumbnailsInfo, setThumbnailsInfo] = useState([]);
+function Shelf({ userID }) {
+  // { docID: { bookID: string, volumeInfo: { ... } } }
+  const [bookDocs, setBookDocs] = useState([]);
+  const [thumbnails, setThumbnails] = useState([]);
 
   useEffect(() => {
-    if (books) {
-      (books).forEach((book) => {
-        const bookID = book.bookID
-        const bookInfo = book.volumeInfo;
-        // const { id: { title, imageLinks } } = book;
-        setThumbnailsInfo(prevInfo => [...prevInfo, { bookID, bookInfo }])
+    getAllUserBooks()
+      .then(bookCollection => {
+        console.log('user books retrieved: ', bookCollection);
+        setBookDocs(bookCollection);
+        // Object.entries(bookCollection).forEach((docID, {bookID, volumeInfo}) => {
+        //   setBooks(prevBooks => [...prevBooks, {docID, bookID, volumeInfo}]);
+        // })
       })
+      .catch(err => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    if (bookDocs) {
+      for (const [docID, book] of Object.entries(bookDocs)) {
+        const { bookID, volumeInfo } = book;
+        setThumbnails(prevInfo => [...prevInfo, { docID, bookID, volumeInfo }]);
+      }
     }
 
     return () => {
-      setThumbnailsInfo([])
+      setThumbnails([])
     }
-  }, []);
+  }, [bookDocs]);
+
+  function updateShelf() {
+
+  }
 
   return (
     <Stack className="shelf" direction="row" spacing={2}>
-      {thumbnailsInfo.map(thumbnailInfo => {
-        const { bookID, bookInfo } = thumbnailInfo;
-        return <Thumbnail key={bookID} bookID={bookID} info={bookInfo} onShelf={true} />
+      {thumbnails.map(thumbnail => {
+        const { docID, bookID, volumeInfo } = thumbnail;
+        return (
+          <Thumbnail
+            key={docID}
+            docID={docID}
+            bookID={bookID}
+            volumeInfo={volumeInfo}
+            onShelf={true}
+          />
+        )
       })}
     </Stack>
   )

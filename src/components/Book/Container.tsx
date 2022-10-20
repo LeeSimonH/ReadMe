@@ -4,37 +4,50 @@ import { useState, useEffect } from 'react';
 import { addBookToUserShelf } from '../../services/db';
 
 import Thumbnail from './Thumbnail/Thumbnail';
-import Modal from './Modal/Modal';
+import InfoLine from './Modal/InfoLine';
 
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
 export default function Container({ bookID, volumeInfo }) {
   const { title, subtitle, authors, pageCount, averageRating } = volumeInfo;
+  const [titleStr, setTitleStr] = useState('');
+  const [authorStr, setAuthorStr] = useState<string | null>('');
 
-  function addBookToShelf(e/* , shelfName:string, bookID: string */): void {
+  useEffect(() => {
+    subtitle ? setTitleStr(`${title}, ${subtitle}`) : setTitleStr(title);
+    authors ? setAuthorStr(authors.join(', ')) : 'N/A';
+  }, [])
+
+  async function addBookToShelf(e/* , shelfName:string, bookID: string */): void {
     e.preventDefault();
-    const addedBook = addBookToUserShelf(bookID, volumeInfo);
-    console.log('added book: ', addedBook);
+    addBookToUserShelf(bookID, volumeInfo)
+      .then(addDocId => {
+        console.log('added book, document ID: ', addedDocId);
+      })
   }
 
   return (
-    <Stack direction="row" className="book-info-container">
-      <Box className="book-container">
-        <Thumbnail bookID={bookID} info={volumeInfo} onShelf={false} />
-      </Box>
-      <Stack className="book-info">
-        <span><strong>Title:</strong> {subtitle ? `${title}, ${subtitle}` : title}</span>
-        <span><strong>Author(s):</strong> {authors ? authors.join(', ') : 'N/A'}</span>
-        <span><strong>Pages:</strong> {pageCount ? pageCount : 'N/A'}</span>
-        <span><strong>Avg. Rating:</strong> {averageRating ? `${averageRating}/5` : 'N/A'}</span>
-      </Stack>
-      <Button
-        className="add-to-shelf-btn"
-        variant="outlined"
-        onClick={addBookToShelf}
-      >Add Book</Button>
-    </Stack>
+    <Paper elevation={3}>
+      <div className="book-info-container">
+        <Box className="book-container">
+          <Thumbnail bookID={bookID} info={volumeInfo} onShelf={false} />
+        </Box>
+        <Stack className="book-info">
+          <InfoLine label={"Title"} info={titleStr} />
+          <InfoLine label={"Author(s)"} info={authorStr} />
+          <InfoLine label={"Pages"} info={pageCount} />
+          <InfoLine label={"Avg. Rating"} info={averageRating} />
+        </Stack>
+        <Button
+          className="add-to-shelf-btn"
+          variant="outlined"
+          onClick={addBookToShelf}
+        >Add Book</Button>
+      </div>
+    </Paper>
+
   )
 }

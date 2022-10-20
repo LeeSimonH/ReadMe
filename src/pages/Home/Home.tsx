@@ -22,15 +22,7 @@ function Home({ userID }): JSX.Element {
       .then(userDoc => {
         console.log('user doc retrieved: ', userDoc);
         setUser(userDoc);
-      })
-      .then(() => {
-        getAllUserBooks()
-          .then(bookCollection => {
-            console.log('user books retrieved: ', bookCollection);
-            setShelf(bookCollection);
-            setLoading(false);
-          })
-          .catch(err => console.log(err));
+        setLoading(false);
       })
       .catch(err => console.log(err));
 
@@ -53,7 +45,7 @@ function Home({ userID }): JSX.Element {
             name={user.fullName}
             imageLink={user.photoURL}
           />
-          <Shelf books={shelf} />
+          <Shelf userID={userID} />
           <Search />
         </>
       )}
