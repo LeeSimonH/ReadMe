@@ -1,94 +1,43 @@
 import { useState, useEffect } from 'react';
 import './Search.css';
-import axios from 'axios';
 
-import Container from '../Book/Container';
+import { googleBookSearch } from '../../services/google';
 
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
-
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-
-function SearchResults({ results }) {
-  const [searchResults, setSearchResults] = useState([]);
-
-  useEffect(() => {
-    setSearchResults(results.map(book => <Container key={'result' + book.id} bookID={book.id} volumeInfo={book.volumeInfo} />));
-  }, [])
-
-  return (
-    <Box id="search-results-container" sx={{ flexGrow: 1 }}>
-      <Stack id="search-results" spacing={2}>
-        {searchResults}
-      </Stack>
-    </Box>
-  )
-}
+import SearchBar from './SearchBar/SearchBar';
+import Container from './Results/Container';
 
 function Search() {
-  const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showingResults, setShowingResults] = useState(false);
 
-  // TO-DO: extract this function to ~/services/google.ts
-  async function googleBookSearch(text: string) {
-    const baseURL = 'https://www.googleapis.com/books/v1/volumes';
+  function handleSearch(text) {
     setShowingResults(false);
     setSearchResults([]);
 
-    const { data: { items } } = await axios.get(baseURL + `?q=${text}`);
-    const bookResults = items;
-    console.log('GBooks search book results: ', bookResults);
+    console.log('searching for: ', text);
 
-    setSearchResults(bookResults);
-    setShowingResults(true);
+    googleBookSearch(text)
+      .then(bookResults => {
+        console.log('setting results from search: ', bookResults);
+        setSearchResults(bookResults);
+        setShowingResults(true);
+      })
   }
 
-  function handleSearch(e) {
+  function clearResults(e) {
     e.preventDefault();
-    googleBookSearch(searchText);
+    setSearchResults([]);
+    setShowingResults(false);
   }
 
   return (
     <div id="search-container">
-      <form id="search" onSubmit={e => handleSearch(e)}>
-        <FormControl>
-          <TextField
-            id="search-text"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            label="Search for books"
-            variant="filled"
-            autoComplete='off'
-            InputProps={{
-              endAdornment: <InputAdornment position="end">
-                <IconButton type="submit">
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
-            }}
-          />
-        </FormControl>
-        {showingResults &&
-          <Button
-            variant="text"
-            onClick={(e) => {
-              e.preventDefault();
-              setSearchResults([]);
-              setSearchText('');
-              setShowingResults(false);
-            }}
-          >
-            Clear Results
-          </Button>
-        }
-      </form>
-      {showingResults && <SearchResults results={searchResults} />}
+      <SearchBar
+        showingResults={showingResults}
+        handleSearch={handleSearch}
+        clearResults={clearResults}
+      />
+      {showingResults && <Container results={searchResults} />}
     </div>
 
   )

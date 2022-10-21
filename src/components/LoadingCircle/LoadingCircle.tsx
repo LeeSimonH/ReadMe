@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 
 export default function LoadingCircle() {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', placeSelf: "center" }}>
       <CircularProgress />
     </Box>
   );

@@ -1,15 +1,5 @@
-#search {
+#search-bar {
   display: flex;
   align-items: center;
   gap: 1em;
-
-}
-
-#search-results-container {
-  padding: 2em 0
-}
-
-#search-results {
-  width: 600px;
-  height: 500px;
 }

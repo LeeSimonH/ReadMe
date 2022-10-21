@@ -1,4 +1,4 @@
-import './Thumbnail.css';
+
 import { useState, useEffect } from 'react';
 import { deleteDocFromUser } from '../../../services/db';
 
@@ -33,12 +33,14 @@ export default function Thumbnail({ docID, bookID, volumeInfo, onShelf }) {
   return (
     <>
       <div
-        className={onShelf ? "thumbnail on-shelf" : "thumbnail"}
-        onClick={onShelf ? toggleModal : () => { }}
+        className="book-thumbnail"
+        onClick={toggleModal}
+        style={{ height: "100px" }}
       >
         <img
           alt={title}
           src={link}
+          style={{ height: "100px" }}
         />
       </div>
       {showModal ? <Modal info={volumeInfo} toggleModal={toggleModal} handleDelete={handleDelete} /> : null}
