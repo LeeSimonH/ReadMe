@@ -1,14 +1,14 @@
-import './Thumbnail.css';
+
 import { useState, useEffect } from 'react';
-import { deleteBookFromUser } from '../../../services/db';
+import { deleteDocFromUser } from '../../../services/db';
 
 import Modal from '../Modal/Modal';
 
-export default function Thumbnail({ bookID, info, onShelf }) {
+export default function Thumbnail({ docID, bookID, volumeInfo, onShelf }) {
   const [link, setLink] = useState('#');
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const { title, imageLinks } = info;
+  const { title, imageLinks } = volumeInfo;
 
   useEffect(() => {
     if (imageLinks) {
@@ -27,21 +27,23 @@ export default function Thumbnail({ bookID, info, onShelf }) {
   }
 
   function handleDelete() {
-    deleteBookFromUser(bookID);
+    deleteDocFromUser(docID);
   }
 
   return (
     <>
       <div
-        className={onShelf ? "thumbnail on-shelf" : "thumbnail"}
+        className="book-thumbnail"
         onClick={toggleModal}
+        style={{ height: "100px" }}
       >
         <img
           alt={title}
           src={link}
+          style={{ height: "100px" }}
         />
       </div>
-      {showModal ? <Modal info={info} toggleModal={toggleModal} handleDelete={handleDelete} /> : null}
+      {showModal ? <Modal info={volumeInfo} toggleModal={toggleModal} handleDelete={handleDelete} /> : null}
     </>
 
   )

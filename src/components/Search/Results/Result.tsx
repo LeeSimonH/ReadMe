@@ -1,17 +1,17 @@
-import './Container.css';
+import './Results.css';
 import { useState, useEffect } from 'react';
 
-import { addBookToUserShelf } from '../../services/db';
+import { addBookToUserShelf } from '../../../services/db';
 
-import Thumbnail from './Thumbnail/Thumbnail';
-import InfoLine from './Modal/InfoLine';
+import Thumbnail from './Thumbnail';
+import InfoLine from '../../Book/Modal/InfoLine';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-export default function Container({ bookID, volumeInfo }) {
+export default function Result({ bookID, volumeInfo }) {
   const { title, subtitle, authors, pageCount, averageRating } = volumeInfo;
   const [titleStr, setTitleStr] = useState('');
   const [authorStr, setAuthorStr] = useState<string | null>('');
@@ -21,11 +21,11 @@ export default function Container({ bookID, volumeInfo }) {
     authors ? setAuthorStr(authors.join(', ')) : 'N/A';
   }, [])
 
-  async function addBookToShelf(e/* , shelfName:string, bookID: string */): void {
+  async function addBookToShelf(e) {
     e.preventDefault();
     addBookToUserShelf(bookID, volumeInfo)
-      .then(addDocId => {
-        console.log('added book, document ID: ', addedDocId);
+      .then(response => {
+        console.log('response from adding book: ', response);
       })
   }
 
@@ -33,7 +33,7 @@ export default function Container({ bookID, volumeInfo }) {
     <Paper elevation={3}>
       <div className="book-info-container">
         <Box className="book-container">
-          <Thumbnail bookID={bookID} info={volumeInfo} onShelf={false} />
+          <Thumbnail bookID={bookID} volumeInfo={volumeInfo} />
         </Box>
         <Stack className="book-info">
           <InfoLine label={"Title"} info={titleStr} />

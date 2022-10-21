@@ -1,35 +1,36 @@
 import './Shelf.css';
-import { useState, useEffect } from 'react';
-
+import { useEffect, useState } from 'react';
 import Thumbnail from '../Book/Thumbnail/Thumbnail';
 
-import Stack from '@mui/material/Stack';
 
-function Shelf({ books }) {
-  const [thumbnailsInfo, setThumbnailsInfo] = useState([]);
+function Shelf({ shelf }) {
+  // { docID: { bookID: string, volumeInfo: { ... } } }
+  const [books, setBooks] = useState({});
 
   useEffect(() => {
-    if (books) {
-      (books).forEach((book) => {
-        const bookID = book.bookID
-        const bookInfo = book.volumeInfo;
-        // const { id: { title, imageLinks } } = book;
-        setThumbnailsInfo(prevInfo => [...prevInfo, { bookID, bookInfo }])
-      })
-    }
+    setBooks(shelf);
+  }, [shelf])
 
-    return () => {
-      setThumbnailsInfo([])
-    }
-  }, []);
+  function mapShelfToThumbnails() {
+    return Array.from(Object.entries(books)).map(entry => {
+      const [docID, { bookID, volumeInfo }] = entry;
+      return (
+        <Thumbnail
+          key={docID}
+          docID={docID}
+          bookID={bookID}
+          volumeInfo={volumeInfo}
+          onShelf={true}
+        />
+      )
+    })
+  }
 
   return (
-    <Stack className="shelf" direction="row" spacing={2}>
-      {thumbnailsInfo.map(thumbnailInfo => {
-        const { bookID, bookInfo } = thumbnailInfo;
-        return <Thumbnail key={bookID} bookID={bookID} info={bookInfo} onShelf={true} />
-      })}
-    </Stack>
+    <>
+      {mapShelfToThumbnails()}
+    </>
+
   )
 }
 

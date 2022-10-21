@@ -28,5 +28,21 @@
   color: red;
   /* text-transform: none; */
   float: right;
-  width: fit-content;
+}
+
+.info-line {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: .25rem;
+}
+
+.info-label {
+  width: 25%;
+  text-align: right;
+  font-weight: 600;
+}
+
+.info-content {
+  width: 75%;
 }

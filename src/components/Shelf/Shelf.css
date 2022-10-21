@@ -1,11 +1,13 @@
 .shelf {
-  height: 100px;
+  height: 120px;
   width: 100%;
   border: 10px solid brown;
+  padding: 1rem;
 
   display: grid;
   grid-template-rows: 1;
   grid-template-columns: auto;
 
-
+  overflow-y: hidden;
+  overflow-x: auto;
 }
