@@ -1,13 +1,12 @@
-import './Home.css';
+import '../assets/sass/home.scss';
 import { useState, useEffect } from 'react';
-import { signout } from '../../services/auth';
-import { getUserDoc } from '../../services/db';
+import { signout } from '../services/auth';
+import { getUserDoc } from '../services/db';
 
-import LoadingCircle from '../../components/LoadingCircle/LoadingCircle';
-import UserHero from '../../components/UserHero/UserHero';
-import Search from '../../components/Search/Search';
-import Container from '../../components/Shelf/Container';
-import Shelf from '../../components/Shelf/Shelf';
+import LoadingCircle from '../components/Common/LoadingCircle';
+import UserHero from '../components/User/UserHero';
+import Search from '../components/Search/Search';
+import Container from '../components/Shelf/Container';
 
 import Button from '@mui/material/Button';
 

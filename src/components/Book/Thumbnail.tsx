@@ -1,10 +1,9 @@
-
 import { useState, useEffect } from 'react';
-import { deleteDocFromUser } from '../../../services/db';
+import { deleteDocFromUser } from '../../services/db';
 
-import Modal from '../Modal/Modal';
+import Modal from '../Common/Modal';
 
-export default function Thumbnail({ docID, bookID, volumeInfo, onShelf }) {
+export default function Thumbnail({ docID, bookID, volumeInfo }) {
   const [link, setLink] = useState('#');
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -35,12 +34,10 @@ export default function Thumbnail({ docID, bookID, volumeInfo, onShelf }) {
       <div
         className="book-thumbnail"
         onClick={toggleModal}
-        style={{ height: "100px" }}
       >
         <img
           alt={title}
           src={link}
-          style={{ height: "100px" }}
         />
       </div>
       {showModal ? <Modal info={volumeInfo} toggleModal={toggleModal} handleDelete={handleDelete} /> : null}

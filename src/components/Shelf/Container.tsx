@@ -1,4 +1,4 @@
-import './Shelf.css';
+import '../../assets/sass/shelf.scss';
 import { useState, useEffect } from 'react';
 import { db } from '../../services/firebase';
 import { onSnapshot, query, collection, getDocs } from 'firebase/firestore';
@@ -6,9 +6,10 @@ import { onSnapshot, query, collection, getDocs } from 'firebase/firestore';
 import { getAllUserBooks } from '../../services/db';
 
 import Shelf from './Shelf';
-import LoadingCircle from '../LoadingCircle/LoadingCircle';
+import LoadingCircle from '../Common/LoadingCircle';
 // import Thumbnail from '../Book/Thumbnail/Thumbnail';
 
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 
 export default function Container({ userID }) {
@@ -44,8 +45,8 @@ export default function Container({ userID }) {
   }, [db])
 
   return (
-    <Stack className="shelf" direction="row" spacing={2}>
+    <Paper className="shelf-container" elevation={1}>
       {reloading ? <LoadingCircle /> : <Shelf shelf={shelf} />}
-    </Stack>
+    </Paper>
   )
 }

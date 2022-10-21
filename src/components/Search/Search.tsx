@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import './Search.css';
+import './../../assets/sass/search.scss';
 
 import { googleBookSearch } from '../../services/google';
 
-import SearchBar from './SearchBar/SearchBar';
-import Container from './Results/Container';
+import SearchBar from './SearchBar';
+import Container from './Container';
 
 function Search() {
   const [searchResults, setSearchResults] = useState([]);

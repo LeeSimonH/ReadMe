@@ -1,0 +1,17 @@
+$light-primary-text: #2b2b2b;
+$light-primary-background: #FEFEFE;
+$light-secondary-text: #333333;
+$light-secondary-background: #fafafa;
+
+$transparent-shadow: #2b2b2b2a;
+
+
+$themes: (
+  light: (color-background: #FEFEFE,
+    color-text: #2b2b2b,
+    color-card: #292929,
+  ),
+  dark: (color-background: #3b3f45,
+    color-text: #FEFEFE,
+    color-card: #eeeeee,
+  ))
