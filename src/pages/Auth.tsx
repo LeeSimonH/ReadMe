@@ -1,10 +1,10 @@
-import './Auth.css';
-import { useState, useContext, useEffect } from 'react';
+import '../assets/sass/auth.scss';
+import { useState } from 'react';
 
-import { signInWithGooglePopup, signInWithEmail, createUser } from '../../services/auth';
+import { signInWithGooglePopup, signInWithEmail, createUser } from '../services/auth';
 
-import LoginForm from '../../components/Auth/LoginForm';
-import SignUpForm from '../../components/Auth/SignUpForm';
+import LoginForm from '../components/Auth/LoginForm';
+import SignUpForm from '../components/Auth/SignUpForm';
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -13,7 +13,6 @@ import GoogleIcon from '@mui/icons-material/Google';
 
 export default function Auth(): JSX.Element {
   const [signingUp, setSigningUp] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   function toggleForm(e) {
     e.preventDefault();

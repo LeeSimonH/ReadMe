@@ -1,0 +1,63 @@
+@import './_animations.scss';
+
+.shelf-container {
+  height: 180px;
+
+  .shelf {
+    height: 100%;
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    .shelf-tile {
+      height: 100%;
+      scroll-snap-align: start;
+      flex-shrink: 0;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .modal-container {
+        margin-left: 1rem;
+        // perspective: 300px;
+      }
+
+      @keyframes initAnimation {
+        0% {
+          transform: rotateY(0deg);
+        }
+
+        100% {
+          transform: rotateY(-20deg);
+        }
+      }
+
+      .book-thumbnail {
+        width: auto;
+        transform-style: preserve-3d;
+        transform: rotateY(-20deg);
+        transition: 1s ease;
+        animation: 1s ease 0s 1 initAnimation;
+
+        img {
+          height: 100px;
+          top: 0;
+          left: 0;
+          position: relative;
+          width: auto;
+          transform: translateZ(5px);
+          border-radius: 0 3px 3px 0;
+          box-shadow: 3px 3px 5px #666;
+        }
+      }
+
+      .book-thumbnail:hover {
+        transform: rotateY(0deg);
+      }
+    }
+  }
+}

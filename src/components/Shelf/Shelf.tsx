@@ -1,7 +1,6 @@
-import './Shelf.css';
 import { useEffect, useState } from 'react';
-import Thumbnail from '../Book/Thumbnail/Thumbnail';
-
+import Thumbnail from '../Book/Thumbnail';
+import BookModal from './BookModal';
 
 function Shelf({ shelf }) {
   // { docID: { bookID: string, volumeInfo: { ... } } }
@@ -14,23 +13,24 @@ function Shelf({ shelf }) {
   function mapShelfToThumbnails() {
     return Array.from(Object.entries(books)).map(entry => {
       const [docID, { bookID, volumeInfo }] = entry;
+      const modalContent = { docID, bookID, volumeInfo };
       return (
-        <Thumbnail
-          key={docID}
-          docID={docID}
-          bookID={bookID}
-          volumeInfo={volumeInfo}
-          onShelf={true}
-        />
+        <div className="shelf-tile" key={docID}>
+          {/* <Thumbnail
+            docID={docID}
+            bookID={bookID}
+            volumeInfo={volumeInfo}
+          /> */}
+          <BookModal content={modalContent} />
+        </div>
       )
     })
   }
 
   return (
-    <>
+    <div className="shelf">
       {mapShelfToThumbnails()}
-    </>
-
+    </div>
   )
 }
 

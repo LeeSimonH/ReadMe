@@ -1,10 +1,10 @@
-import './Container.css';
+import '../../assets/sas/book.scss';
 import { useState, useEffect } from 'react';
 
 import { addBookToUserShelf } from '../../services/db';
 
-import Thumbnail from './Thumbnail/Thumbnail';
-import InfoLine from './Modal/InfoLine';
+import Thumbnail from './Thumbnail';
+import InfoLine from '../Common/InfoLine';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';

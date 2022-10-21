@@ -1,0 +1,32 @@
+#auth-form {
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 2em;
+    gap: 1em;
+  }
+
+  .btn-group {
+    justify-content: space-between;
+  }
+
+  #sign-up-link {
+    font-weight: 400;
+
+    :hover {
+      text-decoration: underline;
+    }
+  }
+
+  #google-login-btn {
+    margin-top: 1em;
+    width: fit-content;
+    background-color: white;
+  }
+}

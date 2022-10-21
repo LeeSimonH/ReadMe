@@ -1,10 +1,10 @@
-import './App.css';
+import './assets/sass/_main.scss';
 import { useState, useEffect } from 'react';
 import { auth } from './services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
-import Home from './pages/Home/Home';
-import Auth from './pages/Auth/Auth';
+import Home from './pages/Home';
+import Auth from './pages/Auth';
 
 function App() {
   const [userID, setUserID] = useState(null);

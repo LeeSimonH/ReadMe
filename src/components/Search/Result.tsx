@@ -1,10 +1,9 @@
-import './Results.css';
 import { useState, useEffect } from 'react';
 
-import { addBookToUserShelf } from '../../../services/db';
+import { addBookToUserShelf } from '../../services/db';
 
 import Thumbnail from './Thumbnail';
-import InfoLine from '../../Book/Modal/InfoLine';
+import InfoLine from '../Common/InfoLine';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';

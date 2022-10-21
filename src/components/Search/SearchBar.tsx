@@ -20,10 +20,10 @@ export default function SearchBar({
   }
 
   return (
-    <form id="search-bar" onSubmit={onSubmit}>
-      <FormControl>
+    <form className="search-bar-container" onSubmit={onSubmit}>
+      <FormControl className="form-ctrl">
         <TextField
-          id="search-text"
+          id="search-text-input"
           value={searchText}
           onChange={e => setSearchText(e.target.value)}
           label="Search for books"
@@ -31,8 +31,8 @@ export default function SearchBar({
           autoComplete='off'
           InputProps={{
             endAdornment: <InputAdornment position="end">
-              <IconButton type="submit">
-                <SearchIcon />
+              <IconButton className="icon-btn" type="submit">
+                <SearchIcon className="icon" />
               </IconButton>
             </InputAdornment>
           }}
