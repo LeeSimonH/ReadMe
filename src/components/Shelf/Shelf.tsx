@@ -27,7 +27,8 @@ function Shelf({ shelf }) {
   }
 
   return (
-    <>{mapShelfToThumbnails()}
+    <>
+      {mapShelfToThumbnails()}
     </>
 
   )

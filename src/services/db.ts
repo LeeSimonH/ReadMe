@@ -23,7 +23,6 @@ export async function getUserDoc(userID: string) {
   const userSnap = await getDoc(userRef);
 
   if (userSnap.exists()) {
-    // console.log('user snapshot: ', userSnap.data());
     return userSnap.data();
   } else {
     console.log('could not find that user');
@@ -48,16 +47,14 @@ export async function getAllUserBooks() {
   }
 }
 
+// returns a Promise
 export async function addBookToUserShelf(bookID: string, bookInfo) {
-  const currentUserID = auth.currentUser?.uid;
-  console.log(`adding book ${bookID} to ${currentUserID}'s allBooks collection`);
-
   const allUserBooksRef = collection(db, 'users', auth.currentUser?.uid, 'allBooks');
-
   const newBookData = { bookID, volumeInfo: bookInfo };
 
   addDoc(allUserBooksRef, newBookData)
     .then(documentRef => {
+      console.log(`Successfully added ${bookInfo.title} to user shelf. Returning db ID: ${documentRef.id}`);
       return documentRef.id;
     })
     .catch(err => {
