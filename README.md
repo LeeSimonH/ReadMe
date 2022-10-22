@@ -25,7 +25,13 @@
 
 ## Demo
 
+### Search for a book and add it to your shelf
+
 ![](https://github.com/LeeSimonH/ReadMe/blob/main/src/search_demo.gif)
+
+### Click a book on your shelf to see more information
+
+![](https://github.com/LeeSimonH/ReadMe/blob/main/src/modal_demo.gif)
 
 ## Built with
 

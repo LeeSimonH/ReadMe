@@ -18,10 +18,10 @@ h2 {
   transform: translate(-50%, -50%);
   width: 400px;
   border-radius: .5rem;
-  background-color: $light-primary-background;
-  box-shadow: 1rem 1rem 1rem $transparent-shadow;
+  background-color: $color-light-shades;
+  border: 0;
   padding: 2rem;
-  overflow-y: scroll;
+  // overflow-y: scroll;
 
   .main-info {
 
@@ -37,6 +37,9 @@ h2 {
 
     .description {
       font-style: italic;
+      width: 100%;
+      // text-indent: 1rem;
+      // text-align: start;
     }
   }
 
@@ -47,9 +50,13 @@ h2 {
   .delete-btn {
     margin-top: 1rem;
     margin-bottom: -1rem;
-    color: red;
+    color: $color-dark-accent;
     /* text-transform: none; */
     float: right;
+  }
+
+  .delete-btn:hover {
+    filter: brightness(1.2);
   }
 
   .lower-info {
@@ -61,29 +68,3 @@ h2 {
     .controls {}
   }
 }
-
-
-
-// .modal {
-//   display: block;
-//   z-index: 10002;
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   overflow-y: auto;
-//   overflow-x: hidden;
-//   overscroll-behavior: none;
-
-//   .modal-container {
-//     background: rgba(17, 21, 24, 0.45);
-//     position: absolute;
-//     left: 0;
-//     top: 0;
-//     width: 100%;
-//     height: 100%;
-//     display: table;
-//     z-index: 2;
-//   }
-// }
