@@ -3,8 +3,6 @@
 
 <h2 align="center">A personal bookshelf for reading enthusiasts</h2>
 
----
-
 <div align="center"> 
 
 ![BUILT_WITH](https://img.shields.io/badge/BUILT_WITH-023047?&style=for-the-badge)
@@ -18,7 +16,6 @@
 </div>
 
 ## Features
----
 
 - Create an account by signing up with your email, or sign in with an existing Google account.
 - Search for books with the Google Books API.
@@ -26,8 +23,11 @@
   - You can click on a book to see information about the book, like the title, author(s), description, number of pages, etc. 
   - If you decide you no longer want the book on your shelf, you can remove it from your shelf.
 
+## Demo
+
+![](https://github.com/LeeSimonH/ReadMe/blob/main/src/search_demo.gif)
+
 ## Built with
----
 
 - [TypeScript](https://www.typescriptlang.org/) - TypeScript is a free and open source programming language developed and maintained by Microsoft. It is a strict syntactical superset of JavaScript and adds optional static typing to the language.
 - [React](https://reactjs.org/) - React is a declarative, efficient, and flexible JavaScript library for building user interfaces. 
@@ -35,7 +35,6 @@
 - [Google Books API](https://developers.google.com/books) - Using the Google Books API, your application can perform full-text searches and retrieve book information, viewability and eBook availability. You can also manage your personal bookshelves.
 
 ## License
----
 
 [© Copyright 2022 Simon Lee](https://github.com/LeeSimonH/ReadMe/blob/main/LICENSE)
 
