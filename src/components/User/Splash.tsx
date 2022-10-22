@@ -2,11 +2,11 @@
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 
-function UserHero({ name, imageLink }) {
+export default function UserHero({ name, imageLink }) {
 
   return (
     <Stack
-      className="user-hero"
+      className="user-splash"
       direction="row"
       alignItems="center"
       spacing={2}
@@ -16,5 +16,3 @@ function UserHero({ name, imageLink }) {
     </Stack>
   )
 }
-
-export default UserHero;

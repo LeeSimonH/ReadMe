@@ -1,3 +1,5 @@
+@import './color-palette';
+
 #Home {
   max-width: 1280px;
   margin-top: 2em;
@@ -7,6 +9,17 @@
   gap: 1rem;
 
   padding: 0 10vw;
+
+  .user-splash {
+    margin-top: 1rem;
+
+    .image {
+      height: 50px;
+      width: 50px;
+      border: 2px solid $color-light-shades;
+      // box-shadow: 2px 2px 5px $transparent-shadow;
+    }
+  }
 }
 
 #signout-btn {

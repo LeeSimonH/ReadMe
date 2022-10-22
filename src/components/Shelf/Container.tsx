@@ -45,8 +45,8 @@ export default function Container({ userID }) {
   }, [db])
 
   return (
-    <Paper className="shelf-container" elevation={1}>
+    <div className="shelf-container">
       {reloading ? <LoadingCircle /> : <Shelf shelf={shelf} />}
-    </Paper>
+    </div>
   )
 }

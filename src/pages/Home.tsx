@@ -4,7 +4,7 @@ import { signout } from '../services/auth';
 import { getUserDoc } from '../services/db';
 
 import LoadingCircle from '../components/Common/LoadingCircle';
-import UserHero from '../components/User/UserHero';
+import UserHero from '../components/User/Splash';
 import Search from '../components/Search/Search';
 import Container from '../components/Shelf/Container';
 

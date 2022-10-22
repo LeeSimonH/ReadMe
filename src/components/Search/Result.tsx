@@ -29,24 +29,24 @@ export default function Result({ bookID, volumeInfo }) {
   }
 
   return (
-    <Paper elevation={3}>
-      <div className="book-info-container">
-        <Box className="book-container">
-          <Thumbnail bookID={bookID} volumeInfo={volumeInfo} />
-        </Box>
-        <Stack className="book-info">
-          <InfoLine label={"Title"} info={titleStr} />
-          <InfoLine label={"Author(s)"} info={authorStr} />
-          <InfoLine label={"Pages"} info={pageCount} />
-          <InfoLine label={"Avg. Rating"} info={averageRating} />
-        </Stack>
-        <Button
-          className="add-to-shelf-btn"
-          variant="outlined"
-          onClick={addBookToShelf}
-        >Add Book</Button>
-      </div>
-    </Paper>
+    // <Paper elevation={3}>
+    <div className="book-info-container">
+      <Box className="book-container">
+        <Thumbnail bookID={bookID} volumeInfo={volumeInfo} />
+      </Box>
+      <Stack className="book-info">
+        <InfoLine label={"Title"} info={titleStr} />
+        <InfoLine label={"Author(s)"} info={authorStr} />
+        <InfoLine label={"Pages"} info={pageCount} />
+        <InfoLine label={"Avg. Rating"} info={averageRating} />
+      </Stack>
+      <Button
+        className="add-to-shelf-btn"
+        variant="outlined"
+        onClick={addBookToShelf}
+      >Add Book</Button>
+    </div>
+    // </Paper>
 
   )
 }

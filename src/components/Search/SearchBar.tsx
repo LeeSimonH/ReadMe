@@ -40,7 +40,9 @@ export default function SearchBar({
       </FormControl>
       {showingResults &&
         <Button
+          id="clear-results-btn"
           variant="text"
+
           onClick={e => {
             clearResults(e);
             setSearchText('');
