@@ -3,10 +3,13 @@
 #search-container {
   width: 100%;
 
-  .search-bar-container {
+  .search-controls-container {
     display: flex;
     align-items: center;
     gap: 1em;
+  }
+
+  .search-bar-container {
 
     .form-ctrl {
       background-color: $color-light-accent;

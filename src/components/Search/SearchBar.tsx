@@ -8,9 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
 export default function SearchBar({
-  showingResults,
-  handleSearch,
-  clearResults
+  showingResults, handleSearch
 }) {
   const [searchText, setSearchText] = useState('');
 
@@ -38,19 +36,6 @@ export default function SearchBar({
           }}
         />
       </FormControl>
-      {showingResults &&
-        <Button
-          id="clear-results-btn"
-          variant="text"
-
-          onClick={e => {
-            clearResults(e);
-            setSearchText('');
-          }}
-        >
-          Clear Results
-        </Button>
-      }
     </form>
   )
 
