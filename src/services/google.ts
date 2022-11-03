@@ -10,11 +10,6 @@ export async function googleBookSearch(searchText: string, startIndex: number = 
   const reqURL = baseURL + `?q=${searchText}&startIndex=${startIndex}&${maxResults}`;
   const { data } = await axios.get(reqURL);
 
-  // const { data: { items } } = await axios.get(reqURL);
-  // array of objects: [ {...}, {...}, ...]
-  // const bookResults = items;
-  // console.log('GBooks search book results: ', bookResults);
-
   return data;
 }
 

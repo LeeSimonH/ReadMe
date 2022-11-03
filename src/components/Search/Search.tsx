@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './../../assets/sass/search.scss';
 
 import { googleBookSearch } from '../../services/google';
+import { getTotalPages, getPaginationNumbers } from '../../utils/pagination';
 
 // import SearchBar from './SearchBar';
 import Container from './Container';
@@ -19,7 +20,7 @@ import Button from '@mui/material/Button';
 export default function Search() {
   const [searchText, setSearchText] = useState('');
   const [totalBookMatches, setTotalBookMatches] = useState<number>(0);
-  const [pageNum, setPageNum] = useState<number>(1);
+  const [currPageNum, setCurrPageNum] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10); // max allowable in one response is 40
 
   const [page, setPage] = useState([]); // array of google book objects
@@ -39,12 +40,13 @@ export default function Search() {
     }
   }
 
-  function handleSearch() {
+  function handleSearch(e) {
+    e.preventDefault();
     setShowingResults(false);
 
     console.log('searching for: ', searchText);
 
-    const startIdx = (pageNum - 1) * itemsPerPage;
+    const startIdx = (currPageNum - 1) * itemsPerPage;
 
     googleBookSearch(searchText, startIdx, itemsPerPage)
       .then(data => {
@@ -56,31 +58,42 @@ export default function Search() {
   function clearResults(e) {
     e.preventDefault();
     setPage([]);
-    setPageNum(0);
+    setCurrPageNum(0);
     setShowingResults(false);
     setSearchText('');
   }
 
-  function getNextPage() {
-    const nextStartIdx = pageNum * itemsPerPage;
-    if (nextStartIdx <= totalBookMatches - 1) {
-      setPageNum(prev => prev + 1);
-      googleBookSearch(searchText, nextStartIdx, itemsPerPage)
+  function getPage(pageNum: number) {
+    const startIndex = (pageNum - 1) * itemsPerPage;
+    if (startIndex >= 0) {
+      setCurrPageNum(pageNum);
+      googleBookSearch(searchText, startIndex, itemsPerPage)
         .then(data => {
           handleGoogleSearchData(data);
         })
     }
   }
 
-  function getPrevPage() {
-    const prevStartIndex = (pageNum - 2) * itemsPerPage;
-    if (prevStartIndex >= 0) {
-      setPageNum(prev => prev - 1);
-      googleBookSearch(searchText, prevStartIndex, itemsPerPage)
-        .then(data => {
-          handleGoogleSearchData(data);
-        })
+  function Pagination() {
+    function PageNumberButton({ pageNum }) {
+      return <Button onClick={() => getPage(pageNum)}>{pageNum}</Button>
     }
+
+    const totalPages = getTotalPages(totalBookMatches, itemsPerPage);
+
+    const paginationNumbers = getPaginationNumbers(currPageNum, totalBookMatches, itemsPerPage);
+
+    return (
+      <div className="page-numbers-container">
+        {paginationNumbers.map(pageNum => {
+          if (pageNum == '...') {
+            return <span>{'...'}</span>;
+          } else {
+            return <PageNumberButton pageNum={pageNum} />
+          }
+        })}
+      </div>
+    )
   }
 
   return (
@@ -89,42 +102,22 @@ export default function Search() {
       <div className="search-controls-container">
         <div className="pagination">
           <div className="page-buttons-container">
-            {/* <Button className="first-page-btn">{'<< First'}</Button> */}
-            <Button
-              className="prev-page-btn"
-              onClick={getPrevPage}
-            >
-              {'< Prev'}
-            </Button>
-            <Button
-              className="next-page-btn"
-              onClick={getNextPage}
-            >
-              {'Next >'}
-            </Button>
-            {/* <Button className="last-page-btn">{'Last >>'}</Button> */}
+            <Button className="prev-page-btn"
+              onClick={() => getPage(currPageNum - 1)}
+            > {'< Prev'}</Button>
+
+            <Button className="next-page-btn"
+              onClick={() => getPage(currPageNum + 1)}
+            >{'Next >'}</Button>
           </div>
-          <div className="page-number-buttons-container">
-            <div>Current Page: {pageNum}</div>
-            {/* <Button>{'1'}</Button>
-            <Button>{'2'}</Button>
-            <Button>{'...'}</Button> */}
-          </div>
+          <Pagination />
         </div>
       </div>
 
       <div className="search-bar-container" >
-        {/* <SearchBar
-          showingResults={showingResults}
-          handleSearch={handleSearch}
-        /> */}
-
         <form
-          className="search-bar-container"
-          onSubmit={e => {
-            e.preventDefault();
-            handleSearch();
-          }}
+          // className="search-bar-container"
+          onSubmit={handleSearch}
         >
           <FormControl className="form-ctrl">
             <TextField
@@ -153,6 +146,7 @@ export default function Search() {
       </div>
 
       {showingResults && <Container results={page} />}
+
     </div>
 
   )
