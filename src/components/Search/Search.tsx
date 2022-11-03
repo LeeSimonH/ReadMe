@@ -40,19 +40,25 @@ export default function Search() {
     }
   }
 
+  function getPage(pageNum: number) {
+    setShowingResults(false);
+    const startIndex = (pageNum - 1) * itemsPerPage;
+    if (startIndex >= 0) {
+      setCurrPageNum(pageNum);
+      googleBookSearch(searchText, startIndex, itemsPerPage)
+        .then(data => {
+          handleGoogleSearchData(data);
+          setShowingResults(true);
+        })
+    }
+  }
+
   function handleSearch(e) {
     e.preventDefault();
-    setShowingResults(false);
+    // setShowingResults(false);
 
     console.log('searching for: ', searchText);
-
-    const startIdx = (currPageNum - 1) * itemsPerPage;
-
-    googleBookSearch(searchText, startIdx, itemsPerPage)
-      .then(data => {
-        handleGoogleSearchData(data);
-        setShowingResults(true);
-      })
+    getPage(1);
   }
 
   function clearResults(e) {
@@ -63,23 +69,15 @@ export default function Search() {
     setSearchText('');
   }
 
-  function getPage(pageNum: number) {
-    const startIndex = (pageNum - 1) * itemsPerPage;
-    if (startIndex >= 0) {
-      setCurrPageNum(pageNum);
-      googleBookSearch(searchText, startIndex, itemsPerPage)
-        .then(data => {
-          handleGoogleSearchData(data);
-        })
-    }
-  }
-
   function Pagination() {
     function PageNumberButton({ pageNum }) {
-      return <Button onClick={() => getPage(pageNum)}>{pageNum}</Button>
+      return (
+        <button
+          className="page-number-btn"
+          onClick={() => getPage(pageNum)}
+        >{pageNum}</button>
+      )
     }
-
-    const totalPages = getTotalPages(totalBookMatches, itemsPerPage);
 
     const paginationNumbers = getPaginationNumbers(currPageNum, totalBookMatches, itemsPerPage);
 
