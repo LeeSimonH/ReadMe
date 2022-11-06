@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 
 import Button from '@mui/material/Button';
 
@@ -9,8 +9,12 @@ import { SearchContext } from '../Search';
 export default function Pagination() {
   const context = useContext(SearchContext);
 
-  function handleClear() {
-    context.clearResults();
+  function handleClear(e) {
+    e.preventDefault();
+
+    context.setResults([]);
+    context.setPageNum(0);
+    context.setSearchText('');
   }
 
   function handleNext() {

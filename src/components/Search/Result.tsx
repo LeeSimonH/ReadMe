@@ -29,7 +29,6 @@ export default function Result({ bookID, volumeInfo }) {
   }
 
   return (
-    // <Paper elevation={3}>
     <div className="book-info-container">
       <Box className="book-container">
         <Thumbnail bookID={bookID} volumeInfo={volumeInfo} />
@@ -46,7 +45,5 @@ export default function Result({ bookID, volumeInfo }) {
         onClick={addBookToShelf}
       >Add Book</Button>
     </div>
-    // </Paper>
-
   )
 }
