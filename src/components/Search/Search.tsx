@@ -5,7 +5,7 @@ import { googleBookSearch } from '../../services/google';
 import { getTotalPages, getPaginationNumbers } from '../../utils/pagination';
 
 // import SearchBar from './SearchBar';
-import Container from './Container';
+import ResultsContainer from './ResultsContainer';
 
 // search bar components
 import FormControl from '@mui/material/FormControl';
@@ -55,7 +55,6 @@ export default function Search() {
 
   function handleSearch(e) {
     e.preventDefault();
-    // setShowingResults(false);
 
     console.log('searching for: ', searchText);
     getPage(1);
@@ -96,54 +95,52 @@ export default function Search() {
 
   return (
     <div id="search-container">
-
       <div className="search-controls-container">
-        <div className="pagination">
-          <div className="page-buttons-container">
-            <Button className="prev-page-btn"
-              onClick={() => getPage(currPageNum - 1)}
-            > {'< Prev'}</Button>
-
-            <Button className="next-page-btn"
-              onClick={() => getPage(currPageNum + 1)}
-            >{'Next >'}</Button>
-          </div>
-          <Pagination />
+        <div className="search-bar-container" >
+          <form onSubmit={handleSearch}>
+            <FormControl className="form-ctrl">
+              <TextField
+                id="search-text-input"
+                value={searchText}
+                onChange={e => setSearchText(e.target.value)}
+                label="Search for books"
+                variant="filled"
+                autoComplete='off'
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">
+                    <IconButton className="icon-btn" type="submit">
+                      <SearchIcon className="icon" />
+                    </IconButton>
+                  </InputAdornment>
+                }}
+              />
+            </FormControl>
+          </form>
         </div>
-      </div>
-
-      <div className="search-bar-container" >
-        <form
-          // className="search-bar-container"
-          onSubmit={handleSearch}
-        >
-          <FormControl className="form-ctrl">
-            <TextField
-              id="search-text-input"
-              value={searchText}
-              onChange={e => setSearchText(e.target.value)}
-              label="Search for books"
-              variant="filled"
-              autoComplete='off'
-              InputProps={{
-                endAdornment: <InputAdornment position="end">
-                  <IconButton className="icon-btn" type="submit">
-                    <SearchIcon className="icon" />
-                  </IconButton>
-                </InputAdornment>
-              }}
-            />
-          </FormControl>
-        </form>
 
         {showingResults &&
-          <Button id="clear-results-btn" variant="text" onClick={clearResults}>
-            Clear Results
-          </Button>
+          <div className="pagination">
+            <div className="page-buttons-container">
+              <Button className="prev-page-btn"
+                onClick={() => getPage(currPageNum - 1)}
+              > {'❮'}</Button>
+
+              <Pagination />
+
+              <Button className="next-page-btn"
+                onClick={() => getPage(currPageNum + 1)}
+              >{'❯'}</Button>
+            </div>
+            <Button id="clear-results-btn" variant="text" onClick={clearResults}>
+              Clear Results
+            </Button>
+          </div>
         }
       </div>
 
-      {showingResults && <Container results={page} />}
+
+
+      {showingResults && <ResultsContainer results={page} />}
 
     </div>
 

@@ -3,7 +3,7 @@ import Result from './Result';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
-export default function Container({ results }) {
+export default function ResultsContainer({ results }) {
 
   return (
     <Box id="search-results-container" sx={{ flexGrow: 1 }}>
