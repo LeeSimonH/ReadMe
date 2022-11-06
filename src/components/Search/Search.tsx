@@ -1,33 +1,25 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './../../assets/sass/search.scss';
 
 import { googleBookSearch } from '../../services/google';
-import { getTotalPages, getPaginationNumbers } from '../../utils/pagination';
 
-// import SearchBar from './SearchBar';
-import Container from './Container';
+import SearchBar from './SearchBar';
+import Pagination from './Pagination/Pagination';
+import ResultsContainer from './ResultsContainer';
 
-// search bar components
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
-
-// general components
-import Button from '@mui/material/Button';
+// context
+export const SearchContext = React.createContext();
 
 export default function Search() {
   const [searchText, setSearchText] = useState('');
-  const [totalBookMatches, setTotalBookMatches] = useState<number>(0);
+  const [searchResults, setSearchResults] = useState([]);
+
   const [currPageNum, setCurrPageNum] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10); // max allowable in one response is 40
-
-  const [page, setPage] = useState([]); // array of google book objects
-  const [showingResults, setShowingResults] = useState<boolean>(false);
+  const [totalBookMatches, setTotalBookMatches] = useState<number>(0);
 
   function handleGoogleSearchData(data) {
-    setPage([]);
+    setSearchResults([]);
 
     const { items, totalItems } = data;
     if (totalItems) {
@@ -36,116 +28,52 @@ export default function Search() {
     }
     if (items) {
       console.log('setting results from search: ', items);
-      setPage(items);
+      setSearchResults(items);
     }
   }
 
   function getPage(pageNum: number) {
-    setShowingResults(false);
     const startIndex = (pageNum - 1) * itemsPerPage;
     if (startIndex >= 0) {
       setCurrPageNum(pageNum);
       googleBookSearch(searchText, startIndex, itemsPerPage)
         .then(data => {
           handleGoogleSearchData(data);
-          setShowingResults(true);
         })
     }
   }
 
-  function handleSearch(e) {
-    e.preventDefault();
-    // setShowingResults(false);
-
+  function handleSearch() {
     console.log('searching for: ', searchText);
     getPage(1);
   }
 
-  function clearResults(e) {
-    e.preventDefault();
-    setPage([]);
-    setCurrPageNum(0);
-    setShowingResults(false);
-    setSearchText('');
-  }
-
-  function Pagination() {
-    function PageNumberButton({ pageNum }) {
-      return (
-        <button
-          className="page-number-btn"
-          onClick={() => getPage(pageNum)}
-        >{pageNum}</button>
-      )
-    }
-
-    const paginationNumbers = getPaginationNumbers(currPageNum, totalBookMatches, itemsPerPage);
-
-    return (
-      <div className="page-numbers-container">
-        {paginationNumbers.map(pageNum => {
-          if (pageNum == '...') {
-            return <span>{'...'}</span>;
-          } else {
-            return <PageNumberButton pageNum={pageNum} />
-          }
-        })}
-      </div>
-    )
-  }
-
   return (
     <div id="search-container">
+      <SearchContext.Provider
+        value={{
+          setSearchText: setSearchText,
+          results: searchResults,
+          setResults: setSearchResults,
 
-      <div className="search-controls-container">
-        <div className="pagination">
-          <div className="page-buttons-container">
-            <Button className="prev-page-btn"
-              onClick={() => getPage(currPageNum - 1)}
-            > {'< Prev'}</Button>
+          currPageNum: currPageNum,
+          setPageNum: setCurrPageNum,
+          itemsPerPage: itemsPerPage,
+          setItemsPerPage: setItemsPerPage,
+          totalBookMatches: totalBookMatches,
 
-            <Button className="next-page-btn"
-              onClick={() => getPage(currPageNum + 1)}
-            >{'Next >'}</Button>
-          </div>
-          <Pagination />
+          getPage: getPage,
+        }}
+      >
+
+        <div className="search-controls-container">
+          <SearchBar handleSearch={handleSearch} />
+          {searchResults.length > 0 && <Pagination />}
         </div>
-      </div>
 
-      <div className="search-bar-container" >
-        <form
-          // className="search-bar-container"
-          onSubmit={handleSearch}
-        >
-          <FormControl className="form-ctrl">
-            <TextField
-              id="search-text-input"
-              value={searchText}
-              onChange={e => setSearchText(e.target.value)}
-              label="Search for books"
-              variant="filled"
-              autoComplete='off'
-              InputProps={{
-                endAdornment: <InputAdornment position="end">
-                  <IconButton className="icon-btn" type="submit">
-                    <SearchIcon className="icon" />
-                  </IconButton>
-                </InputAdornment>
-              }}
-            />
-          </FormControl>
-        </form>
+        <ResultsContainer />
 
-        {showingResults &&
-          <Button id="clear-results-btn" variant="text" onClick={clearResults}>
-            Clear Results
-          </Button>
-        }
-      </div>
-
-      {showingResults && <Container results={page} />}
-
+      </SearchContext.Provider>
     </div>
-
   )
 }

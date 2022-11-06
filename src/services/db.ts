@@ -51,6 +51,8 @@ export async function getAllUserBooks() {
 export async function addBookToUserShelf(bookID: string, bookInfo) {
   const allUserBooksRef = collection(db, 'users', auth.currentUser?.uid, 'allBooks');
   const newBookData = { bookID, volumeInfo: bookInfo };
+  // add review field
+  // const newBookData = { bookID, volumeInfo: bookInfo, review: null };
 
   addDoc(allUserBooksRef, newBookData)
     .then(documentRef => {

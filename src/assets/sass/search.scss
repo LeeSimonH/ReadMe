@@ -4,9 +4,16 @@
   width: 100%;
 
   .search-controls-container {
-    display: flex;
-    align-items: center;
-    gap: 1em;
+
+    .pagination {
+      display: flex;
+      align-items: center;
+
+      .page-buttons-container {
+        display: flex;
+        align-items: center;
+      }
+    }
   }
 
   .search-bar-container {

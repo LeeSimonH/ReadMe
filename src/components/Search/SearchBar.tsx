@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -7,36 +7,45 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-export default function SearchBar({
-  showingResults, handleSearch
-}) {
-  const [searchText, setSearchText] = useState('');
+import { SearchContext } from './Search';
 
-  function onSubmit(e) {
+export default function SearchBar({ handleSearch }) {
+  const inputRef = useRef(null);
+  const context = useContext(SearchContext);
+
+  function handleSubmit(e) {
     e.preventDefault();
-    handleSearch(searchText);
+    handleSearch();
+  }
+
+  function handleInputChange(e) {
+    context.setSearchText(e.currentTarget.value);
   }
 
   return (
-    <form className="search-bar-container" onSubmit={onSubmit}>
-      <FormControl className="form-ctrl">
-        <TextField
-          id="search-text-input"
-          value={searchText}
-          onChange={e => setSearchText(e.target.value)}
-          label="Search for books"
-          variant="filled"
-          autoComplete='off'
-          InputProps={{
-            endAdornment: <InputAdornment position="end">
-              <IconButton className="icon-btn" type="submit">
-                <SearchIcon className="icon" />
-              </IconButton>
-            </InputAdornment>
-          }}
-        />
-      </FormControl>
-    </form>
+    <div className="search-bar-container" >
+      <form onSubmit={handleSubmit}>
+        <FormControl className="form-ctrl">
+          <TextField
+            id="search-text-input"
+            onChange={handleInputChange}
+            ref={inputRef}
+
+            label="Search for books"
+            variant="filled"
+            autoComplete='off'
+
+            InputProps={{
+              endAdornment: <InputAdornment position="end">
+                <IconButton className="icon-btn" type="submit">
+                  <SearchIcon className="icon" />
+                </IconButton>
+              </InputAdornment>
+            }}
+          />
+        </FormControl>
+      </form>
+    </div>
   )
 
 }
